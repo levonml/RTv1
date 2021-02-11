@@ -1,89 +1,117 @@
 #include "rt.h"
 
+void data_init(t_data *data)
+{
+  data->y = 0;
+  data->light.pos.x = 0;
+  data->light.pos.y = 400;
+  data->light.pos.z = -1000;
+  data->s.radius = 300;
+  data->s.pos.x = 540;
+  data->s.pos.y = 400;
+  data->s.pos.z = 1;
+  data->r.dir.x = 0;
+  data->r.dir.y = 0;
+  data->r.dir.z = 1;
+  data->r.start.z = -1300;
+  data->red = 0;
+  data->green = 0;
+  data->blue = 0;
+}
+void sphere( t_data data)
+{
+  while(data.y < 800)
+  {
+      data.r.start.y = data.y;
+      data.x = 0;
+      while(data.x < 1080)
+	    {
+        data.t = -data.r.start.z;
+        data.r.start.x = data.x;
+        if (intersect_ray_sphere(&data.r, &data.s, &data.t) == 1)
+        {
+          data.scaled = vector_scale(data.t, &data.r.dir);
+          data.new_start = vector_add(&data.r.start, &data.scaled);
+          data.n = vector_sub(&data.new_start, &data.s.pos);
+          data.temp = dot_product(&data.n, &data.n);
+          if(data.temp == 0)
+            break ;
+          data.temp = 1 / sqrt(data.temp);
+          data.n = vector_scale(data.temp, &data.n);
+          data.dist = vector_sub(&data.light.pos, &data.new_start);
+
+          if( dot_product(&data.dist, &data.n) >= 0 )
+          {
+            data.temp = sqrt(dot_product(&data.dist, &data.dist));
+            if (data.temp == 0)
+              break ;
+              data.light_ray.start = data.new_start;
+              data.light_ray.dir = vector_scale(1 / data.temp, &data.dist); 
+              float lambert = dot_product(&data.light_ray.dir, &data.n);
+              data.blue = BLUE * lambert;
+              data.green = GREEN * lambert;
+              data.red =  RED * lambert;
+              //if( vector_add()
+          }
+        }
+	      else
+        {
+	        data.red = 0;
+          data.green = 0;
+          data.blue = 0;
+        }
+	      data.pixel = data.y * data.line_bytes + data.x * 4;
+	      data.buffer[data.pixel + 0] = data.blue;
+	      data.buffer[data.pixel + 1] = data.green;
+	      data.buffer[data.pixel + 2] = data.red;
+	      data.buffer[data.pixel + 3] = 0;
+	      data.x++;
+	    }
+      data.y++;
+    }
+}
+int key_control(int key, void *d)
+{
+  t_data *data;
+ 
+  data = (t_data *)d;
+  if( key == 50)
+  {
+    data->s.pos.x = 1100;
+  }
+  if (key == 65307) 
+    exit(0);
+    printf("x = %f\n", data->s.pos.x);  
+    printf("x = %d\n", key);  
+ 
+  
+ //if(key == 49)
+    sphere(*data);
+    mlx_put_image_to_window(data->mlx, data->win, data->image, 0, 0);
+  return (0);
+}
+
+int expose_hook(void *d)
+{
+  t_data *data;
+
+  data = (t_data *)d;
+  mlx_put_image_to_window(data->mlx, data->win, data->image, 0, 0);
+  return(0);
+}
+
 int main(void)
 {
-  void	*mlx;
-  void	*win;
-  void	*image;
-  char	*buffer;
-  int	pixel_bits;
-  int   line_bytes;
-  int   endian;
-  int x;
-  int y;
-  int color;
-  int pixel;
-  float t;
-  t_ray light_ray;
-  t_ray r;
-  t_sphere s;
-  t_light light;
-
+  t_data    data;
  
-  mlx = mlx_init();
-  win = mlx_new_window(mlx, 1080, 800, "RT");
-  image = mlx_new_image(mlx, 1080, 800);
-  buffer = mlx_get_data_addr(image, &pixel_bits, &line_bytes, &endian);
-  y = 0;
-  light.pos.x = -800;
-  light.pos.y = 400;
-  light.pos.z = -4000;
-  s.radius = 300;
-  s.pos.x = 540;
-  s.pos.y = 400;
-  s.pos.z = 1;
-  r.dir.x = 0;
-  r.dir.y = 0;
-  r.dir.z = 1;
-  r.start.z = -1300;
-  while(y < 800)
-  {
-      r.start.y = y;
-      x = 0;
-      while(x < 1080)
-	    {
-        t = -r.start.z;
-        r.start.x = x;
-        if (intersect_ray_sphere(&r, &s, &t) == 1)
-        {
-          t_vector scaled = vector_scale(t, &r.dir);
-          t_vector new_start = vector_add(&r.start, &scaled);
-          t_vector n = vector_sub(&new_start, &s.pos);
-          float temp = dot_product(&n, &n);
-          if(temp == 0)
-            break ;
-          temp = 1 / sqrt(temp);
-          n = vector_scale(temp, &n);
-          t_vector dist = vector_sub(&light.pos, &new_start);
-          color = 0;
-          if( dot_product(&dist, &n) >= 0)// continue;
-          {
-            float tt = sqrt(dot_product(&dist, &dist));
-            //if (tt >= 0)// continue;
-            {
-              light_ray.start = new_start;
-              light_ray.dir = vector_scale(1/tt, &dist); 
-              float lambert = dot_product(&light_ray.dir, &n);
-              color = 80;
-              color *= lambert*lambert;
-            }
-          }
-          
-
-        }
-          
-	      else
-	        color = 0;
-	      pixel = y * line_bytes + x * 4;
-	      buffer[pixel + 0] = color;
-	      buffer[pixel + 1] = 0;
-	      buffer[pixel + 2] = color;
-	      buffer[pixel + 3] = 0;
-	      x++;
-	    }
-      y++;
-    }
-  mlx_put_image_to_window(mlx, win, image, 0, 0);
-  mlx_loop(mlx);
+  data.mlx = mlx_init();
+  data.win = mlx_new_window(data.mlx, 1080, 800, "RT");
+  data.image = mlx_new_image(data.mlx, 1080, 800);
+  data.buffer = mlx_get_data_addr(data.image, &data.pixel_bits, &data.line_bytes, &data.endian);
+  data_init(&data);
+  sphere(data);
+  mlx_key_hook(data.win, key_control, &data);
+  mlx_expose_hook(data.win, expose_hook, &data);
+  mlx_loop(data.mlx);
   return(0);
 }
