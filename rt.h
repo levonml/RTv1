@@ -1,6 +1,6 @@
 #ifndef RT_H
 # define RT_H
-#include "libft/includes/libft.h"
+#include "libft/libft.h"
 #include <mlx.h>
 #include <math.h>
 #include <stdlib.h>

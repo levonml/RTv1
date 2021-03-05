@@ -1,11 +1,11 @@
 #include "rt.h"
 
-void  fill_data(t_shape shape, char **split)
+void  fill_data(t_shape *shape, char **split)
 {
-  shape.radius = ft_atoi(split[6]);
-  shape.pos.x = ft_atoi(split[2]);
-  shape.pos.y = ft_atoi(split[3]);
-  shape.pos.z = ft_atoi(split[4]);
+  shape->radius = ft_atoi(split[6]);
+  shape->pos.x = ft_atoi(split[2]);
+  shape->pos.y = ft_atoi(split[3]);
+  shape->pos.z = ft_atoi(split[4]);
 }
 
 int data_init(t_data *data)
@@ -26,23 +26,50 @@ int data_init(t_data *data)
   sphere_check = 0;
   cylinder_check = 0;
   cone_check = 0;
-  while (get_next_line(data->fd, data->str) == 1)
+  while (get_next_line(data->fd, &data->str) == 1)
   {
     if (!(split = ft_strsplit(data->str, ' ')))
-      return(0);
-    if (split[0] == "sphere")
     {
+      ft_putstr("split error");
+      return(0);
+    }
+    //printf("split[1] = %s", split[0]);
+    if (ft_strcmp(split[0], "sphere") == 0)
+    {
+      //ft_putstr("ffffffffff\n");
       if (!sphere_check)
       {
         sphere_check = 1;
         num = ft_atoi(split[1]);
+ 
+        printf("num = %d", num);
         data->sphere = (t_shape *)malloc(sizeof(t_shape) * num);
       }
-      fill_data(data->sphere[sphere_count], split);
-      sphere_count++;
+      else
+      {
+        fill_data(&data->sphere[sphere_count], split);
+        sphere_count++;
+        //ft_putstr("ffffffffff\n");
+      }
     }
   
-    if (split[0] == "cylinder")
+    else if (ft_strcmp(split[0], "cone") == 0)
+    {
+      //ft_putstr("ffffffffff\n");
+      if (!cone_check)
+      {
+        //ft_putstr("conefffff\n");
+        cone_check = 1;
+        num = ft_atoi(split[1]);
+        data->cone = (t_shape *)malloc(sizeof(t_shape) * num);
+      }
+      else
+      {
+        fill_data(&data->cone[cone_count], split);
+        cone_count++;
+      }
+    }
+     else if (ft_strcmp(split[0], "cylinder") == 0)
     {
       if (!cylinder_check)
       {
@@ -50,19 +77,13 @@ int data_init(t_data *data)
         num = ft_atoi(split[1]);
         data->cylinder = (t_shape *)malloc(sizeof(t_shape) * num);
       }
-      fill_data(data->cylinder[cylinder_count], split);
-      cylinder_count++;
-    }
-    if (split[0] == "cone")
-    {
-      if (!cone_check)
+      else
       {
-        cone_check = 1;
-        num = ft_atoi(split[1]);
-        data->cone = (t_shape *)malloc(sizeof(t_shape) * num);
+        fill_data(&data->cylinder[cylinder_count], split);
+        cylinder_count++;
+        //ft_putstr("ffffffffff\n");
       }
-      fill_data(data->cylinder[cone_count], split);
-      cone_count++;
+      //ft_putstr("ffffffffff\n");
     }
   }
   
@@ -72,7 +93,7 @@ data->cone = (t_shape *)malloc(sizeof(t_shape) * 4);*/
   data->y = 0;
   data->light.pos.x = 1800;
   data->light.pos.y = 400;
-  data->light.pos.z = -4000;
+  data->light.pos.z = -2000;
  /* data->sphere[1].radius = 200;
   data->sphere[1].pos.x = 1000;
   data->sphere[1].pos.y = 600;
@@ -118,15 +139,19 @@ void render(t_data data)
         i = -1;
         while(iter < 3)
         {
-          if(intersect_ray_sphere(&data, iter))
+          if( intersect_ray_cylinder(&data, iter) )
             i = iter;
           iter++;
         }
        // printf("i = %d", data.x);
         if (i != -1) 
           {
-            if (!sphere(&data, i))
+          //  if (!sphere(&data, i))
+            //  break ;
+            if (!cylinder(&data, i))
               break ;
+           // if (!cone(&data, i))
+             // break ;
           }
             else 
         {
@@ -170,6 +195,11 @@ int main(int argc, char **argv)
 
   if(!(data = malloc(sizeof(t_data))))
     return(0);
+  if(argc != 2)
+  {
+    ft_putstr("one argument must be given");
+    return(0);
+  }
   if(!(data->fd = open(argv[1], O_RDONLY)) && data->fd == -1)
   {
     ft_putstr("file opening error");

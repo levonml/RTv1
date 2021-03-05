@@ -1,23 +1,14 @@
 sphere 3
-
 sphere pos(x,y,z)  500 400 100 radius 200 
-sphere pos(x,y,z) 1000 200 100 radius 200 
-sphere pos(x,y,z) 1000 600 100 radius 200
-
+sphere pos(x,y,z) 1000 200 100 radius 50 
+sphere pos(x,y,z) 1300 600 100 radius 200
 cone 3
-
 cone pos(x,y,z)  100 500 100 radius 200
 cone pos(x,y,z)  400 300 100 radius 300
 cone pos(x,y,z) 1600 700 100 radius 100
-
 cylinder 3
-
-cylinder pos(x,y,z)  500 100 100 radius  50
+cylinder pos(x,y,z)  300 100 100 radius  150
 cylinder pos(x,y,z)  900 600 100 radius 150
-cylinder pos(x,y,z) 1700 700 100 radius 220
-
+cylinder pos(x,y,z) 1300 700 100 radius 220
 light
 light 2000 400 700
-
-
-

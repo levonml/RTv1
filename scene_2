@@ -1,0 +1,4 @@
+cone 1
+cone pos(x,y,z)  100 500 100 radius 200
+cylinder 1
+cylinder pos(x,y,z)  500 100 100 radius  300
