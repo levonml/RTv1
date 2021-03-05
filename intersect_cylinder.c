@@ -35,7 +35,7 @@ t_vector vector_add_c(t_vector *v1, t_vector *v2)
     return (res);
 }
 
-int intersect_ray_cylinder(t_data *data)//t_ray *r, t_sphere *cylinder, float *t)
+int intersect_ray_cylinder(t_data *data, int i)
 {
 
     float discr;
@@ -47,9 +47,9 @@ int intersect_ray_cylinder(t_data *data)//t_ray *r, t_sphere *cylinder, float *t
     t_vector dist;
 
     a = dot_product_c(&data->r.dir, &data->r.dir);
-    dist = vector_sub_c(&data->r.start, &data->cylinder.pos);
+    dist = vector_sub_c(&data->r.start, &data->cylinder[i].pos);
     b = 2 * dot_product_c(&data->r.dir, &dist);
-    c = dot_product_c(&dist, &dist) - data->cylinder.radius * data->cylinder.radius;
+    c = dot_product_c(&dist, &dist) - data->cylinder[i].radius * data->cylinder[i].radius;
     discr = b * b - 4 * a * c;
     if (discr  < 0)
         return (0);

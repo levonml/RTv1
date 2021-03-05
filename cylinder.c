@@ -1,12 +1,12 @@
         
 #include "rt.h"
 
-int      cylinder(t_data *data)
+int      cylinder(t_data *data, int i)
 {
     data->scaled = vector_scale(data->t, &data->r.dir);
     data->new_start = vector_add(&data->r.start, &data->scaled);
-    data->cylinder.pos.y = data->new_start.y;
-    data->n = vector_sub(&data->new_start, &data->cylinder.pos);
+    data->cylinder[i].pos.y = data->new_start.y;
+    data->n = vector_sub(&data->new_start, &data->cylinder[i].pos);
     data->temp = dot_product(&data->n, &data->n);
     if(data->temp == 0)
       return(0);
