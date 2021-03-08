@@ -14,13 +14,13 @@ static t_vector vector_scale_c(float a, t_vector *v)
     return (res);
 }
 
-static t_vector vector_sub_c(t_vector *v1, t_vector *v2)
+static t_vector vector_sub_c(t_vector v1, t_vector v2)
 {
     t_vector res;
 
-    res.x = v1->x - v2->x;
+    res.x = v1.x - v2.x;
     //res.y = v1->y - v2->y;
-    res.z = v1->z - v2->z;
+    res.z = v1.z - v2.z;
     return (res);
 }
 
@@ -45,24 +45,30 @@ int intersect_ray_cone(t_data *data, int i)
     float t0;
     float t1;
     t_vector dist;
-
+    //printf("data->t = %f", data->t);
+    if(!data->cone || !data->cone_count)
+      return(0);
+      //printf("cone_count = %d", data->cone_count);
     a = dot_product_c(&data->r.dir, &data->r.dir);
-    dist = vector_sub_c(&data->r.start, &data->cone[i].pos);
+    dist = vector_sub_c(data->r.start, data->cone[i].pos);
     b = 2 * dot_product_c(&data->r.dir, &dist);
-    c = dot_product_c(&dist, &dist) - data->r.start.y * data->r.start.y / 4;
+    c = dot_product_c(&dist, &dist) - (data->y - HEIGHT/2) * (data->y - HEIGHT/2)/6;
+    /*a = data->r.dir.x * data->r.dir.x + data->r.dir.z * data->r.dir.z - data->r.dir.y * data->r.dir.y;
+    b = 2 * (data->r.start.x * data->r.dir.x + data->r.start.z * data->r.dir.z - data->r.start.y * data->r.dir.y);
+    c = data->r.start.x * data->r.start.x + data->r.start.z * data->r.start.z - data->r.start.y * data->r.start.y;*/
     discr = b * b - 4 * a * c;
-    if (discr  <= 0)
+    if (discr <= 0)
         return (0);
-    t0 = (-b + sqrt(discr)) / 2;
-    t1 = (-b - sqrt(discr)) / 2;
+    t0 = (-b + sqrt(discr)) / 2 * a;
+    t1 = (-b - sqrt(discr)) / 2 * a;
     if (t0 > t1)
         t0 = t1;
     if(t0 > 0 && t0 < data->t)
     {
-        //data->cone_t = t0;
         data->t = t0;
-       // printf("t = %f", *t);
         return (1);
     }
+    else
+        return (0);
 return (0);
 }

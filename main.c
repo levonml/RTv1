@@ -3,8 +3,10 @@
 void  fill_data(t_shape *shape, char **split)
 {
   shape->radius = ft_atoi(split[6]);
-  shape->pos.x = ft_atoi(split[2]);
-  shape->pos.y = ft_atoi(split[3]);
+  shape->pos.x = WIDTH/2 + ft_atoi(split[2]);
+  shape->pos.y = ft_atoi(split[3]) + HEIGHT/2;
+  //shape->pos.x = ft_atoi(split[2]);
+  //shape->pos.y = ft_atoi(split[3]);
   shape->pos.z = ft_atoi(split[4]);
 }
 
@@ -14,7 +16,6 @@ int data_init(t_data *data)
   char **split;
   int sphere_count;
   int cylinder_count;
-  int cone_count;
   int num;
   int sphere_check;
   int cylinder_check;
@@ -22,54 +23,50 @@ int data_init(t_data *data)
 
   sphere_count = 0;
   cylinder_count = 0;
-  cone_count = 0;
+  data->cone_count = 0;
   sphere_check = 0;
   cylinder_check = 0;
   cone_check = 0;
+  data->cylinder = NULL;
+  data->sphere = NULL;
+  data->cone = NULL;
   while (get_next_line(data->fd, &data->str) == 1)
   {
+    printf("%s\n",data->str);
     if (!(split = ft_strsplit(data->str, ' ')))
     {
       ft_putstr("split error");
       return(0);
     }
-    //printf("split[1] = %s", split[0]);
     if (ft_strcmp(split[0], "sphere") == 0)
     {
-      //ft_putstr("ffffffffff\n");
       if (!sphere_check)
       {
         sphere_check = 1;
         num = ft_atoi(split[1]);
- 
-        printf("num = %d", num);
         data->sphere = (t_shape *)malloc(sizeof(t_shape) * num);
       }
       else
       {
         fill_data(&data->sphere[sphere_count], split);
         sphere_count++;
-        //ft_putstr("ffffffffff\n");
       }
     }
-  
     else if (ft_strcmp(split[0], "cone") == 0)
     {
-      //ft_putstr("ffffffffff\n");
       if (!cone_check)
       {
-        //ft_putstr("conefffff\n");
         cone_check = 1;
-        num = ft_atoi(split[1]);
-        data->cone = (t_shape *)malloc(sizeof(t_shape) * num);
+        data->cone_num = ft_atoi(split[1]);
+        data->cone = (t_shape *)malloc(sizeof(t_shape) * data->cone_num);
       }
       else
       {
-        fill_data(&data->cone[cone_count], split);
-        cone_count++;
+        fill_data(&data->cone[data->cone_count], split);
+        data->cone_count++;
       }
     }
-     else if (ft_strcmp(split[0], "cylinder") == 0)
+    else if (ft_strcmp(split[0], "cylinder") == 0)
     {
       if (!cylinder_check)
       {
@@ -81,92 +78,87 @@ int data_init(t_data *data)
       {
         fill_data(&data->cylinder[cylinder_count], split);
         cylinder_count++;
-        //ft_putstr("ffffffffff\n");
       }
-      //ft_putstr("ffffffffff\n");
     }
   }
-  
-/*data->cylinder = (t_shape *)malloc(sizeof(t_shape) * 4);
-data->sphere = (t_shape *)malloc(sizeof(t_shape) * 4);
-data->cone = (t_shape *)malloc(sizeof(t_shape) * 4);*/
   data->y = 0;
-  data->light.pos.x = 1800;
-  data->light.pos.y = 400;
-  data->light.pos.z = -2000;
- /* data->sphere[1].radius = 200;
-  data->sphere[1].pos.x = 1000;
-  data->sphere[1].pos.y = 600;
-  data->sphere[1].pos.z = 100;
-  data->sphere[0].radius = 200;
-  data->sphere[0].pos.x = 1000;
-  data->sphere[0].pos.y = 200;
-  data->sphere[0].pos.z = 100;
-  data->sphere[2].radius = 200;
-  data->sphere[2].pos.x = 300;
-  data->sphere[2].pos.y = 200;
-  data->sphere[2].pos.z = 100;
-  data->cylinder[0].radius = 150;
-  data->cylinder[0].pos.x = 840;
-  data->cylinder[0].pos.y = 400;
-  data->cylinder[0].pos.z = 0;
-  data->cone[0].radius = 110;
-  data->cone[0].pos.x = 900;
-  data->cone[0].pos.y = 10;
-  data->cone[0].pos.z = 0;*/
+  data->light.pos.x = WIDTH/2 - 300;
+  data->light.pos.y = 0;
+  data->light.pos.z = -1000;
   data->r.dir.x = 0;
   data->r.dir.y = 0;
   data->r.dir.z = 1;
-  data->r.start.z = -13000;
+  data->r.start.z = -15000;
   data->red = 0;
   data->green = 0;
   data->blue = 0;
 }
-void render(t_data data)
+void render(t_data *data)
 {
   int iter;
-  int i;
+  int i_cylinder;
+  int i_sphere;
+  int i_cone;
 
-  while(data.y < HEIGHT)
+  while(data->y < HEIGHT)
   {
-      data.r.start.y = data.y;
-      data.x = 0;
-      while(data.x < WIDTH)
+      data->r.start.y = data->y;
+      data->x = 0;
+      while(data->x < WIDTH)
 	    {
-        data.t = -data.r.start.z;
-        data.r.start.x = data.x;
+        data->t = 50000;
+        data->r.start.x = data->x;
         iter = 0;
-        i = -1;
-        while(iter < 3)
+        i_cylinder = -1;
+        i_sphere = -1;
+        i_cone = -1;
+        while(iter < 8)
         {
-          if( intersect_ray_cylinder(&data, iter) )
-            i = iter;
-          iter++;
-        }
-       // printf("i = %d", data.x);
-        if (i != -1) 
+          if( intersect_ray_cylinder(data, iter) )
+            i_cylinder = iter;
+          if(intersect_ray_cone(data, iter))
           {
-          //  if (!sphere(&data, i))
-            //  break ;
-            if (!cylinder(&data, i))
-              break ;
-           // if (!cone(&data, i))
-             // break ;
+            i_cone = iter;
+            i_cylinder = -1;
           }
-            else 
+
+          if( intersect_ray_sphere(data, iter))
+          {
+            i_sphere = iter;
+            i_cone = -1;
+            i_cylinder = -1;
+          }
+          iter++;
+      }
+        if (i_cylinder != -1) 
         {
-          data.blue = 0;
-          data.green = 0;
-          data.red = 0;
+          if (!cylinder(data, i_cylinder))
+            break ;
+        }
+        else if(i_sphere != -1)
+        {
+          if (!sphere(data, i_sphere))
+            break ;
+        }
+        else if(i_cone != -1)
+        {
+          if (!cone(data, i_cone))
+            break ;
+        }
+        else 
+        {
+          data->blue = 0;
+          data->green = 0;
+          data->red = 0;
         }   
-	      data.pixel = data.y * data.line_bytes + data.x * 4;
-	      data.buffer[data.pixel + 0] = data.blue;
-	      data.buffer[data.pixel + 1] = data.green;
-	      data.buffer[data.pixel + 2] = data.red;
-	      data.buffer[data.pixel + 3] = 0;
-        data.x++;
+	      data->pixel = data->y * data->line_bytes + data->x * 4;
+	      data->buffer[data->pixel + 0] = data->blue;
+	      data->buffer[data->pixel + 1] = data->green;
+	      data->buffer[data->pixel + 2] = data->red;
+	      data->buffer[data->pixel + 3] = 0;
+        data->x++;
 	    }
-      data.y++;
+      data->y++;
     }
 }
 int key_control(int key, void *d)
@@ -184,7 +176,7 @@ int expose_hook(void *d)
   t_data *data;
 
   data = (t_data *)d;
-  render(*data);
+  render(data);
   mlx_put_image_to_window(data->mlx, data->win, data->image, 0, 0);
   return(0);
 }

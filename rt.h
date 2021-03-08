@@ -63,7 +63,8 @@ typedef struct s_data
     float   temp;
     float   lambert;
     int     sphere_value;
-    int     cone_value;
+    int     cone_count;
+    int     cone_num;
     int     cylinder_value;
     t_shape *sphere;
     t_shape *cylinder;

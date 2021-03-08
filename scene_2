@@ -1,4 +1,10 @@
+cylinder 2
+cylinder pos(x,y,z)  300 0 0 radius  150
+cylinder pos(x,y,z)  -300 0 1020 radius  150
+sphere 2
+sphere pos(x,y,z)  300 0 0 radius 200
+sphere pos(x,y,z)  -500 0 100 radius 200
+
 cone 1
-cone pos(x,y,z)  100 500 100 radius 200
-cylinder 1
-cylinder pos(x,y,z)  500 100 100 radius  300
+cone pos(x,y,z)  200 0 0 radius 200
+

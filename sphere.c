@@ -2,6 +2,7 @@
 
 int sphere(t_data *data, int i)
 {
+ 
   //printf("t= %f", data->t);
     data->scaled = vector_scale(data->t, &data->r.dir);
     data->new_start = vector_add(&data->r.start, &data->scaled);

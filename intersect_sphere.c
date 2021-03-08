@@ -46,17 +46,20 @@ int intersect_ray_sphere(t_data *data, int i)
     float t1;
     t_vector dist;
 
+    if(!data->sphere)
+      return(0);
+
     a = dot_product(&data->r.dir, &data->r.dir);
     dist = vector_sub(&data->r.start, &data->sphere[i].pos);
     b = 2 * dot_product(&data->r.dir, &dist);
     c = dot_product(&dist, &dist) - data->sphere[i].radius * data->sphere[i].radius;
     discr = b * b - 4 * a * c;
-    if (discr  < 0)
+    if (discr  <= 0)
         return (0);
     else 
     {
-        t0 = (-b + sqrt(discr)) / 2;
-        t1 = (-b - sqrt(discr)) / 2;
+        t0 = (-b + sqrt(discr)) / 2*a;
+        t1 = (-b - sqrt(discr)) / 2*a;
     }
     if (t0 > t1)
         t0 = t1;
