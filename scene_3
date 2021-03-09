@@ -1,5 +1,9 @@
-cylinder 2
+cylinder 3
 cylinder pos(x,y,z)  -200 500 400 radius 300
+cylinder pos(x,y,z)  100 500 400 radius 200
+cylinder pos(x,y,z)  -500 500 300 radius 100
 
-cylinder pos(x,y,z)  300 500 100 radius 200
+light 2
+light pos(x,y,z) -1000 300 -1000 radius 0
+light pos(x,y,z) 1000 -400 -1000 radius 0
 sfdsdfgdssdg

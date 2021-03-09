@@ -7,4 +7,8 @@ sphere pos(x,y,z)  -500 0 100 radius 200
 
 cone 1
 cone pos(x,y,z)  200 0 0 radius 200
+light 2
+light pos(x,y,z) 1000 0 -200 radius 0
+light pos(x,y,z) -1000 0 -200 radius 0
+light pos(x,y,z) -5000 0 -200 radius 0
 

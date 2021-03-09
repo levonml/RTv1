@@ -63,15 +63,19 @@ typedef struct s_data
     float   temp;
     float   lambert;
     int     sphere_value;
+    int     cylinder_value;
     int     cone_count;
     int     cone_num;
-    int     cylinder_value;
+    int     sphere_num;
+    int     cylinder_num;
+    int     light_num;
     t_shape *sphere;
     t_shape *cylinder;
     t_shape *cone;
+    t_shape *light;
     t_ray       r;
     t_ray       light_ray;
-    t_light     light;
+   // t_light     light;
     t_vector    dist;
     t_vector scaled;
     t_vector new_start;
@@ -85,8 +89,8 @@ t_vector    vector_add(t_vector *v1, t_vector *v2);
 t_vector    vector_sub(t_vector *v1, t_vector *v2);
 float       dot_product(t_vector *v1, t_vector *v2);
 t_vector    vector_scale(float a, t_vector *v);
-int         cylinder(t_data *data, int i);
-int         cone(t_data *data, int i);
-int         sphere(t_data *data, int i);
+int         cylinder(t_data *data, int i, int j);
+int         cone(t_data *data, int i, int j);
+int         sphere(t_data *data, int i, int j);
 
 # endif

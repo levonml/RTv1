@@ -46,18 +46,17 @@ int intersect_ray_cone(t_data *data, int i)
     float t1;
     t_vector dist;
     //printf("data->t = %f", data->t);
-    if(!data->cone || !data->cone_count)
+    if(!data->cone || (data->cone_count - 1) < i)
       return(0);
       //printf("cone_count = %d", data->cone_count);
+    //if(data->y > 9)
+    //{
     a = dot_product_c(&data->r.dir, &data->r.dir);
     dist = vector_sub_c(data->r.start, data->cone[i].pos);
     b = 2 * dot_product_c(&data->r.dir, &dist);
     c = dot_product_c(&dist, &dist) - (data->y - HEIGHT/2) * (data->y - HEIGHT/2)/6;
-    /*a = data->r.dir.x * data->r.dir.x + data->r.dir.z * data->r.dir.z - data->r.dir.y * data->r.dir.y;
-    b = 2 * (data->r.start.x * data->r.dir.x + data->r.start.z * data->r.dir.z - data->r.start.y * data->r.dir.y);
-    c = data->r.start.x * data->r.start.x + data->r.start.z * data->r.start.z - data->r.start.y * data->r.start.y;*/
     discr = b * b - 4 * a * c;
-    if (discr <= 0)
+    if (discr < 0)
         return (0);
     t0 = (-b + sqrt(discr)) / 2 * a;
     t1 = (-b - sqrt(discr)) / 2 * a;
@@ -68,6 +67,7 @@ int intersect_ray_cone(t_data *data, int i)
         data->t = t0;
         return (1);
     }
+    //}
     else
         return (0);
 return (0);

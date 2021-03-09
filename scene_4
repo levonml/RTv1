@@ -1,7 +1,5 @@
-sphere 1
-sphere pos(x,y,z)  -300 0 0 radius 100
-
 cone 1
-cone pos(x,y,z)  500 500 0 radius 100
-cylinder 1
-cylinder pos(x,y,z)  200 500 0 radius 100
+cone pos(x,y,z)  400 0 0 radius 200
+light 2
+light pos(x,y,z) 1000 0 -2000 radius 0
+light pos(x,y,z) -1000 0 -2000 radius 0
