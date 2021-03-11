@@ -20,12 +20,38 @@ int      cylinder(t_data *data, int current_cylinder, int current_light)
           return(0);
         data->light_ray.start = data->new_start;
         data->light_ray.dir = vector_scale(1 / data->temp, &data->dist); 
+        data->in_shadow = 0;
+        int d;
+        d = 0;
+       /* while (d < data->obj_num)
+        {
+          if( !intersect_ray_cylinder(data, &data->light_ray, d) )
+         // if(find_intersection(data, &data->light_ray, d))
+          {
+            //printf("found intersectin\n");
+            data->in_shadow = 1;
+            data->blue = 50;
+            data->green = 50;
+            data->red = 50;
+            break ;
+          }
+          d++;
+        }*/
+      if (data->in_shadow == 0)
+      {
         data->lambert = dot_product(&data->light_ray.dir, &data->n);
         data->blue = 0 ;
         data->green += GREEN * data->lambert;
         if (data->green > 255)
           data->green = 255;
         data->red =  0 ;
+      }
+     /*  else 
+      {
+        data->blue = 0;
+        data->green = 0;
+        data->red = 0;
+      }*/
     }
     return(1);
 }

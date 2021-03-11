@@ -1,5 +1,8 @@
-cone 1
+cone 2
 cone pos(x,y,z)  400 0 0 radius 200
+cone pos(x,y,z)  200 0 0 radius 200
+sphere 1
+sphere pos(x,y,z)  200 -100 -200 radius 100
 light 2
 light pos(x,y,z) 1000 0 -2000 radius 0
-light pos(x,y,z) -1000 0 -2000 radius 0
+light pos(x,y,z) -500 0 -2000 radius 0

@@ -1,5 +1,11 @@
 
 #include "rt.h"
+float ft_abs(float t)
+{
+    if(t < 0)
+        return(t);
+    return(t);
+}
 
 float dot_product_c(t_vector *v1, t_vector *v2)
 {
@@ -35,7 +41,7 @@ t_vector vector_add_c(t_vector *v1, t_vector *v2)
     return (res);
 }
 
-int intersect_ray_cylinder(t_data *data, int i)
+int intersect_ray_cylinder(t_data *data, t_ray *ray, int current_cylinder)
 {
 
     float discr;
@@ -47,21 +53,19 @@ int intersect_ray_cylinder(t_data *data, int i)
     t_vector dist;
     if(!data->cylinder)    
       return(0);
-    a = dot_product_c(&data->r.dir, &data->r.dir);
-    dist = vector_sub_c(&data->r.start, &data->cylinder[i].pos);
-    b = 2 * dot_product_c(&data->r.dir, &dist);
-    c = dot_product_c(&dist, &dist) - data->cylinder[i].radius * data->cylinder[i].radius;
+    a = dot_product_c(&ray->dir, &ray->dir);
+    dist = vector_sub_c(&ray->start, &data->cylinder[current_cylinder].pos);
+    b = 2 * dot_product_c(&ray->dir, &dist);
+    c = dot_product_c(&dist, &dist) - data->cylinder[current_cylinder].radius * data->cylinder[current_cylinder].radius;
     discr = b * b - 4 * a * c;
     if (discr  <=  0)
     {
-       // ft_putstr("disco");
     return (0);
-    }
-        
+    }      
     else 
     {
-        t0 = (-b + sqrt(discr)) / 2 * a;
-        t1 = (-b - sqrt(discr)) / 2 * a;
+        t0 =((-b + sqrt(discr)) / 2 * a);
+        t1 = ((-b - sqrt(discr)) / 2 * a);
         if (t0 > t1)
             t0 = t1;
         if(t0 > 0 && t0 < data->t)

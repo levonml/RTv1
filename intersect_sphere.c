@@ -35,7 +35,7 @@ t_vector vector_add(t_vector *v1, t_vector *v2)
     return (res);
 }
 
-int intersect_ray_sphere(t_data *data, int i)
+int intersect_ray_sphere(t_data *data, t_ray *ray, int current)
 {
 
     float discr;
@@ -49,10 +49,10 @@ int intersect_ray_sphere(t_data *data, int i)
     if(!data->sphere)
       return(0);
 
-    a = dot_product(&data->r.dir, &data->r.dir);
-    dist = vector_sub(&data->r.start, &data->sphere[i].pos);
-    b = 2 * dot_product(&data->r.dir, &dist);
-    c = dot_product(&dist, &dist) - data->sphere[i].radius * data->sphere[i].radius;
+    a = dot_product(&ray->dir, &ray->dir);
+    dist = vector_sub(&ray->start, &data->sphere[current].pos);
+    b = 2 * dot_product(&ray->dir, &dist);
+    c = dot_product(&dist, &dist) - data->sphere[current].radius * data->sphere[current].radius;
     discr = b * b - 4 * a * c;
     if (discr  <= 0)
         return (0);

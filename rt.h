@@ -50,6 +50,14 @@ typedef struct s_data
     int	    pixel_bits;
     int     line_bytes;
     int     endian;
+    int     obj_num;
+    int     iter_light;
+    int     i_cylinder;
+    int     i_sphere;
+    int     i_cone;
+    int     iter;
+    int     intersect;
+    int     in_shadow;
     int     x;
     int     y;
     float   red;
@@ -82,9 +90,9 @@ typedef struct s_data
     t_vector n;
 }               t_data;
 
-int         intersect_ray_sphere(t_data *data, int i);
-int         intersect_ray_cylinder(t_data *data, int i);
-int         intersect_ray_cone(t_data *data, int i);
+int         intersect_ray_sphere(t_data *data, t_ray *ray, int i);
+int         intersect_ray_cylinder(t_data *data, t_ray *ray, int i);
+int         intersect_ray_cone(t_data *data, t_ray *ray, int i);
 t_vector    vector_add(t_vector *v1, t_vector *v2);
 t_vector    vector_sub(t_vector *v1, t_vector *v2);
 float       dot_product(t_vector *v1, t_vector *v2);
@@ -92,5 +100,6 @@ t_vector    vector_scale(float a, t_vector *v);
 int         cylinder(t_data *data, int i, int j);
 int         cone(t_data *data, int i, int j);
 int         sphere(t_data *data, int i, int j);
+int         find_intersection(t_data *data, t_ray *ray, int i);
 
 # endif

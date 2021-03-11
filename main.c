@@ -1,12 +1,69 @@
 #include "rt.h"
-/*int   max_num(int a, int b, int c)
+int   max_num(int a, int b, int c)
 {
   if(a < b)
     a = b;
   if (a < c)
     a = c;
     return(a);
-}*/
+}
+int   find_intersection(t_data *data, t_ray *r, int current_obj)
+{
+  data->intersect = 0;
+  if(current_obj < data->cylinder_num)
+  {
+    if( intersect_ray_cylinder(data, r, current_obj))
+    {
+      data->i_cylinder = current_obj;
+      data->intersect = 1;
+    }
+  }
+  if(current_obj < data->cone_num)
+  {
+    if(intersect_ray_cone(data, r, current_obj))
+    {
+      data->i_cone = current_obj;
+      data->i_cylinder = -1;
+      data->intersect = 1;
+    }
+  }
+  if(current_obj < data->sphere_num)
+  {
+    if( intersect_ray_sphere(data, r, current_obj))
+    {
+      data->i_sphere = current_obj;
+      data->i_cone = -1;
+      data->i_cylinder = -1;
+      data->intersect = 1;
+    }
+  }
+  return(data->intersect);
+}
+int   iterate_over_objects(t_data *data, int iter)
+{
+  if (data->i_cylinder != -1) 
+  {
+    if (!cylinder(data, data->i_cylinder, data->iter_light))
+      return(0);
+  }
+  else if(data->i_sphere != -1)
+  {
+    if (!sphere(data, data->i_sphere, data->iter_light))
+      return(0);
+  }
+  else if(data->i_cone != -1)
+  {
+    if (!cone(data, data->i_cone, data->iter_light))
+      return(0);
+  }
+  else 
+  {
+    data->blue = 0;
+    data->green = 0;
+    data->red = 0;
+  }
+  return(1);
+}
 void  fill_data(t_shape *shape, char **split)
 {
   shape->radius = ft_atoi(split[6]);
@@ -44,7 +101,7 @@ int data_init(t_data *data)
   data->cone = NULL;
   while (get_next_line(data->fd, &data->str) == 1)
   {
-    printf("%s\n",data->str);
+    //printf("%s\n",data->str);
     if (!(split = ft_strsplit(data->str, ' ')))
     {
       ft_putstr("split error");
@@ -109,98 +166,65 @@ int data_init(t_data *data)
     }
   }
   data->y = 0;
-  /*data->light.pos.x = WIDTH/2 - 300;
-  data->light.pos.y = 0;
-  data->light.pos.z = -1000;*/
   data->r.dir.x = 0;
   data->r.dir.y = 0;
   data->r.dir.z = 1;
-  data->r.start.z = -15000;
+  data->r.start.z = -1000;
   data->blue = 0;
   data->green = 0;
   data->red = 0;
 }
 void render(t_data *data)
 {
-  int iter;
-  int i_cylinder;
-  int i_sphere;
-  int i_cone;
-  int num;
   int light_num;
-  int iter_light;
 
-  num = data->cone_num + data->cylinder_num + data->sphere_num;
-  printf("num = %d", num);
+  data->obj_num = max_num(data->cone_num, data->cylinder_num, data->sphere_num);
   while(data->y < HEIGHT)
-  {
-      data->r.start.y = data->y;
-      data->x = 0;
-      while(data->x < WIDTH)
-	    {
-        data->blue = 0;
-        data->green = 0;
-        data->red = 0;
-        data->t = 50000;
-        data->r.start.x = data->x;
-        iter = 0;
-        i_cylinder = -1;
-        i_sphere = -1;
-        i_cone = -1;
-        while(iter < num)
-        {
-          if( intersect_ray_cylinder(data, iter) )
-            i_cylinder = iter;
-          if(intersect_ray_cone(data, iter))
-          {
-            i_cone = iter;
-            i_cylinder = -1;
-          }
-
-          if( intersect_ray_sphere(data, iter))
-          {
-            i_sphere = iter;
-            i_cone = -1;
-            i_cylinder = -1;
-          }
-          iter++;
-      }
-      light_num = data->light_num;
-      iter_light = 0;
-      while(iter_light < light_num)
+{
+  data->r.start.y = data->y;
+  data->x = 0;
+  while(data->x < WIDTH)
+	{
+    data->blue = 0;
+    data->green = 0;
+    data->red = 0;
+    data->t = 50000;
+    data->r.start.x = data->x;
+    data->iter = 0;
+    data->i_cylinder = -1;
+    data->i_sphere = -1;
+    data->i_cone = -1;
+    int e;
+    e = 0;
+    while (e < 1)
+    {
+      //data->t = 50000;
+      data->red = 0;
+      data->green = 0;
+      data->blue = 0;
+      while(data->iter < data->obj_num)
       {
-        if (i_cylinder != -1) 
-        {
-          if (!cylinder(data, i_cylinder, iter_light))
-            break ;
-        }
-        else if(i_sphere != -1)
-        {
-          if (!sphere(data, i_sphere, iter_light))
-            break ;
-        }
-        else if(i_cone != -1)
-        {
-          if (!cone(data, i_cone, iter_light))
-            break ;
-        }
-       else 
-        {
-          data->blue = 0;
-          data->green = 0;
-          data->red = 0;
-        }
-        iter_light++;
+        find_intersection(data, &data->r, data->iter);
+        data->iter++;
       }
-	      data->pixel = data->y * data->line_bytes + data->x * 4;
-	      data->buffer[data->pixel + 0] = data->blue;
-	      data->buffer[data->pixel + 1] = data->green;
-	      data->buffer[data->pixel + 2] = data->red;
-	      data->buffer[data->pixel + 3] = 0;
-        data->x++;
-	    }
-      data->y++;
+      data->iter_light = 0;
+      while(data->iter_light < data->light_num)
+      {
+        if(!iterate_over_objects(data, data->iter_light))
+          break ;
+        data->iter_light++;
+      }
+	    data->pixel = data->y * data->line_bytes + data->x * 4;
+	    data->buffer[data->pixel + 0] = data->blue;
+	    data->buffer[data->pixel + 1] = data->green;
+	    data->buffer[data->pixel + 2] = data->red;
+	    data->buffer[data->pixel + 3] = 0;
+      e++;
     }
+    data->x++;
+	}
+  data->y++;
+  }
 }
 int key_control(int key, void *d)
 {
