@@ -1,8 +1,16 @@
+.plane 1
+.plane pos(x,y,z) 0 -300 0 normal 0 -100 -100
 cone 2
-cone pos(x,y,z)  400 0 0 radius 200
+.cone pos(x,y,z)  400 200 0 
 cone pos(x,y,z)  200 0 0 radius 200
+cone pos(x,y,z)  200 -300 -200 radius 200
 sphere 1
-sphere pos(x,y,z)  200 -100 -200 radius 100
-light 2
-light pos(x,y,z) 1000 0 -2000 radius 0
-light pos(x,y,z) -500 0 -2000 radius 0
+sphere pos(x,y,z)  200 200 0 radius 100
+.sphere pos(x,y,z)  400 200 -150 radius 100
+cylinder 1
+cylinder pos(x,y,z)  -290 0 -220 radius  10
+
+light 1
+//light pos(x,y,z) -500 0 -2000 radius 0
+light pos(x,y,z) 1000 -600 -2000 radius 0
+

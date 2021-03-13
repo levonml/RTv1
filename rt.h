@@ -9,6 +9,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+#include <unistd.h>
 #define RED 150
 #define BLUE 150
 #define GREEN 150
@@ -35,7 +36,8 @@ typedef struct  s_light
 
 typedef struct  s_shape
 {
-    t_vector    pos;
+    t_vector    pos;    
+    t_vector    normal;
     float       radius;
 }               t_shape;
 
@@ -55,6 +57,7 @@ typedef struct s_data
     int     i_cylinder;
     int     i_sphere;
     int     i_cone;
+    int     i_plane;
     int     iter;
     int     intersect;
     int     in_shadow;
@@ -65,6 +68,7 @@ typedef struct s_data
     float   blue;
     int     pixel;
     float   t;
+    float   light_t;
     float   sphere_t;
     float   cylinder_t;
     float   cone_t;
@@ -75,11 +79,13 @@ typedef struct s_data
     int     cone_count;
     int     cone_num;
     int     sphere_num;
+    int     plane_num;
     int     cylinder_num;
     int     light_num;
     t_shape *sphere;
     t_shape *cylinder;
     t_shape *cone;
+    t_shape *plane;
     t_shape *light;
     t_ray       r;
     t_ray       light_ray;
@@ -90,16 +96,19 @@ typedef struct s_data
     t_vector n;
 }               t_data;
 
-int         intersect_ray_sphere(t_data *data, t_ray *ray, int i);
-int         intersect_ray_cylinder(t_data *data, t_ray *ray, int i);
-int         intersect_ray_cone(t_data *data, t_ray *ray, int i);
+int         intersect_ray_sphere(t_data *data, t_ray *ray, int i, float *t);
+int         intersect_ray_cylinder(t_data *data, t_ray *ray, int i, float *t);
+int         intersect_ray_cone(t_data *data, t_ray *ray, int i, float *t);
+int         intersect_ray_plane(t_data *data, t_ray *ray, int i, float *t);
 t_vector    vector_add(t_vector *v1, t_vector *v2);
 t_vector    vector_sub(t_vector *v1, t_vector *v2);
 float       dot_product(t_vector *v1, t_vector *v2);
+float       ft_abs(float t);
 t_vector    vector_scale(float a, t_vector *v);
 int         cylinder(t_data *data, int i, int j);
 int         cone(t_data *data, int i, int j);
 int         sphere(t_data *data, int i, int j);
-int         find_intersection(t_data *data, t_ray *ray, int i);
+int         plane(t_data *data, int i, int j);
+int         find_intersection(t_data *data, t_ray *ray, int i, float *t);
 
 # endif

@@ -35,7 +35,7 @@ static t_vector vector_add_c(t_vector *v1, t_vector *v2)
 }
 
 
-int intersect_ray_cone(t_data *data, t_ray *ray, int current)
+int intersect_ray_cone(t_data *data, t_ray *ray, int current, float *t)
 {
 
     float discr;
@@ -55,16 +55,14 @@ int intersect_ray_cone(t_data *data, t_ray *ray, int current)
     discr = b * b - 4 * a * c;
     if (discr < 0)
         return (0);
-    t0 = (-b + sqrt(discr)) / 2 * a;
-    t1 = (-b - sqrt(discr)) / 2 * a;
+    t0 = ((-b + sqrt(discr)) / 2 * a);
+    t1 = ((-b - sqrt(discr)) / 2 * a);
     if (t0 > t1)
         t0 = t1;
-    if(t0 > 0 && t0 < data->t)
+    if(t0 > 0 && t0 < *t)
     {
-        data->t = t0;
+        *t = t0;
         return (1);
     }
-    else
-        return (0);
 return (0);
 }

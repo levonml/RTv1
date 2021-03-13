@@ -7,12 +7,28 @@ int   max_num(int a, int b, int c)
     a = c;
     return(a);
 }
-int   find_intersection(t_data *data, t_ray *r, int current_obj)
+void  fill_data(t_shape *shape, char **split)
+{
+  if(ft_strcmp(split[5], "normal") == 0)
+  {
+    shape->normal.x = ft_atoi(split[6]);
+    shape->normal.y = ft_atoi(split[7]);
+    shape->normal.z = ft_atoi(split[8]);
+  } 
+  if(ft_strcmp(split[5], "radius") == 0)
+  {
+    shape->radius = ft_atoi(split[6]);
+  }
+  shape->pos.x = WIDTH/2 + ft_atoi(split[2]);
+  shape->pos.y = ft_atoi(split[3]) + HEIGHT/2;
+  shape->pos.z = ft_atoi(split[4]);
+}
+int   find_intersection(t_data *data, t_ray *r, int current_obj, float *t)
 {
   data->intersect = 0;
   if(current_obj < data->cylinder_num)
   {
-    if( intersect_ray_cylinder(data, r, current_obj))
+    if( intersect_ray_cylinder(data, r, current_obj, t))
     {
       data->i_cylinder = current_obj;
       data->intersect = 1;
@@ -20,7 +36,7 @@ int   find_intersection(t_data *data, t_ray *r, int current_obj)
   }
   if(current_obj < data->cone_num)
   {
-    if(intersect_ray_cone(data, r, current_obj))
+    if(intersect_ray_cone(data, r, current_obj, t))//first cone here no intersect, but first sphere intersect then second cone intersect
     {
       data->i_cone = current_obj;
       data->i_cylinder = -1;
@@ -29,7 +45,7 @@ int   find_intersection(t_data *data, t_ray *r, int current_obj)
   }
   if(current_obj < data->sphere_num)
   {
-    if( intersect_ray_sphere(data, r, current_obj))
+    if( intersect_ray_sphere(data, r, current_obj, t))
     {
       data->i_sphere = current_obj;
       data->i_cone = -1;
@@ -37,10 +53,23 @@ int   find_intersection(t_data *data, t_ray *r, int current_obj)
       data->intersect = 1;
     }
   }
+ /* if(current_obj < data->plane_num)
+  {
+    if( intersect_ray_plane(data, r, current_obj, t))
+    {
+      data->i_plane = current_obj;
+      data->i_cone = -1;
+      data->i_cylinder = -1;
+      data->i_sphere = -1;
+      data->intersect = 1;
+    }
+  }*/
   return(data->intersect);
 }
 int   iterate_over_objects(t_data *data, int iter)
 {
+  //ft_putstr("here!!!!!!!!!!!1\n");
+  //printf("dddddd= ");
   if (data->i_cylinder != -1) 
   {
     if (!cylinder(data, data->i_cylinder, data->iter_light))
@@ -56,20 +85,18 @@ int   iterate_over_objects(t_data *data, int iter)
     if (!cone(data, data->i_cone, data->iter_light))
       return(0);
   }
-  else 
+  /*else if(data->i_plane != -1)
+  {
+    if (!plane(data, data->i_plane, data->iter_light))
+      return(0);
+  }*/
+ /* else 
   {
     data->blue = 0;
     data->green = 0;
     data->red = 0;
-  }
+  }*/
   return(1);
-}
-void  fill_data(t_shape *shape, char **split)
-{
-  shape->radius = ft_atoi(split[6]);
-  shape->pos.x = WIDTH/2 + ft_atoi(split[2]);
-  shape->pos.y = ft_atoi(split[3]) + HEIGHT/2;
-  shape->pos.z = ft_atoi(split[4]);
 }
 
 int data_init(t_data *data)
@@ -79,20 +106,24 @@ int data_init(t_data *data)
   int sphere_count;
   int cylinder_count;
   int light_count;
+  int plane_count;
   int num;
   int sphere_check;
   int cylinder_check;
   int cone_check;
   int light_check;
+  int plane_check;
 
   sphere_count = 0;
   cylinder_count = 0;
   light_count = 0;
+  plane_count = 0;
   data->cone_count = 0;
   sphere_check = 0;
   cylinder_check = 0;
   cone_check = 0;
   light_check = 0;
+  plane_check = 0;
   data->cone_num = 0;
   data->sphere_num = 0;
   data->cylinder_num = 0;
@@ -120,8 +151,7 @@ int data_init(t_data *data)
         fill_data(&data->sphere[sphere_count], split);
         sphere_count++;
       }
-    }
-    
+    }   
     else if (ft_strcmp(split[0], "cone") == 0)
     {
       if (!cone_check)
@@ -148,6 +178,20 @@ int data_init(t_data *data)
       {
         fill_data(&data->cylinder[cylinder_count], split);
         cylinder_count++;
+      }
+    }
+    else if (ft_strcmp(split[0], "plane") == 0)
+    {
+      if (!plane_check)
+      {
+        plane_check = 1;
+        data->plane_num = ft_atoi(split[1]);
+        data->plane = (t_shape *)malloc(sizeof(t_shape) * data->plane_num);
+      }
+      else
+      {
+        fill_data(&data->plane[plane_count], split);
+        plane_count++;
       }
     }
     else if (ft_strcmp(split[0], "light") == 0)
@@ -204,16 +248,17 @@ void render(t_data *data)
       data->blue = 0;
       while(data->iter < data->obj_num)
       {
-        find_intersection(data, &data->r, data->iter);
+        find_intersection(data, &data->r, data->iter, &data->t);
         data->iter++;
       }
-      data->iter_light = 0;
-      while(data->iter_light < data->light_num)
+      //data->iter_light = 0;
+      iterate_over_objects(data, data->iter_light);
+      /*while(data->iter_light < 1)//data->light_num)
       {
         if(!iterate_over_objects(data, data->iter_light))
           break ;
-        data->iter_light++;
-      }
+       // data->iter_light++;
+      }*/
 	    data->pixel = data->y * data->line_bytes + data->x * 4;
 	    data->buffer[data->pixel + 0] = data->blue;
 	    data->buffer[data->pixel + 1] = data->green;
@@ -263,6 +308,7 @@ int main(int argc, char **argv)
     return(0);
   }
   data_init(data);
+  close(data->fd);
   data->mlx = mlx_init();
   data->win = mlx_new_window(data->mlx, WIDTH, HEIGHT, "RT");
   data->image = mlx_new_image(data->mlx, WIDTH, HEIGHT);

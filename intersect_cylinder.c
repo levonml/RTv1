@@ -41,7 +41,7 @@ t_vector vector_add_c(t_vector *v1, t_vector *v2)
     return (res);
 }
 
-int intersect_ray_cylinder(t_data *data, t_ray *ray, int current_cylinder)
+int intersect_ray_cylinder(t_data *data, t_ray *ray, int current_cylinder, float *t)
 {
 
     float discr;
@@ -68,10 +68,10 @@ int intersect_ray_cylinder(t_data *data, t_ray *ray, int current_cylinder)
         t1 = ((-b - sqrt(discr)) / 2 * a);
         if (t0 > t1)
             t0 = t1;
-        if(t0 > 0 && t0 < data->t)
+        if(t0 > 0 && t0 < *t)
         {
             //data->cylinder_t = t0;
-            data->t = t0;
+            *t = t0;
             //printf("cilindric = %f", data->t);
             // printf("t = %f", *t);
             return (1);
