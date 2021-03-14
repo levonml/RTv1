@@ -54,7 +54,7 @@ int intersect_ray_sphere(t_data *data, t_ray *ray, int current, float *t)
     b = 2 * dot_product(&ray->dir, &dist);
     c = dot_product(&dist, &dist) - data->sphere[current].radius * data->sphere[current].radius;
     discr = b * b - 4 * a * c;
-    if (discr  <= 0)
+    if (discr <= 0)
         return (0);
     else 
     {
@@ -65,7 +65,6 @@ int intersect_ray_sphere(t_data *data, t_ray *ray, int current, float *t)
         t0 = t1;
     if(t0 > 0 && t0 < *t)
     {
-        //data->sphere_t = t0;
         *t = t0;
         return (1);
     }

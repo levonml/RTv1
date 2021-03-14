@@ -4,21 +4,24 @@ int      plane(t_data *data, int current_plane, int i)
 {
     int current_light;
     int d;
-    
+    //ft_putstr("ddddddddddddddddddd");
     data->scaled = vector_scale(data->t, &data->r.dir);
     data->new_start = vector_add(&data->r.start, &data->scaled);
     //data->n = vector_sub(&data->new_start, &data->sphere[current_sphere].pos);
     data->temp = dot_product(&data->plane[current_plane].normal, &data->plane[current_plane].normal);
     if(data->temp == 0)
       return(0);
+      //ft_putstr("ddddddddddddddddddd");
     data->temp = 1 / sqrt(data->temp);
     data->plane[current_plane].normal = vector_scale(data->temp, &data->plane[current_plane].normal);
     current_light = 0;
     while(current_light < data->light_num)
     {
+      //ft_putstr("ddddddddddddddddddd");
       data->dist = vector_sub(&data->light[current_light].pos, &data->new_start);
-      if( dot_product(&data->dist, &data->plane[current_plane].normal) > 0 )// or != 0???
+      if( dot_product(&data->dist, &data->plane[current_plane].normal) != 0 )// or != 0???
       {
+        //ft_putstr("ddddddddddddddddddd");
         data->light_t = sqrt(dot_product(&data->dist, &data->dist));
         if (data->light_t > 0)
         {
@@ -26,11 +29,13 @@ int      plane(t_data *data, int current_plane, int i)
           data->light_ray.dir = vector_scale(1 / data->light_t, &data->dist); 
           data->in_shadow = 0;
           d = 0;//max number of objects
-          while (d <  2)
+          while (d <  7)
           {
-            if( intersect_ray_cylinder(data, &data->light_ray, d, &data->light_t) )
-            //if(find_intersection(data, &data->light_ray, d))
+            //ft_putstr("ddddddddddddddddddd");
+            //if( intersect_ray_cylinder(data, &data->light_ray, d, &data->light_t) )
+            if(find_intersection(data, &data->light_ray, d, &data->light_t))
             {
+              //ft_putstr("ddddddddddddddddddd");
               data->in_shadow = 1;
               break ;
             }           
@@ -38,8 +43,9 @@ int      plane(t_data *data, int current_plane, int i)
           }
           if (!data->in_shadow)
           {
+            //ft_putstr("ddddddddddddddddddd");
             data->lambert = dot_product(&data->light_ray.dir, &data->plane[current_plane].normal);
-            data->blue = 0;
+            data->blue = 30;
             data->green = 80;
             data->red +=  RED * data->lambert;
             if (data->red > 255)

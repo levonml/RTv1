@@ -1,4 +1,4 @@
-cylinder 3
+cylinder 2
 cylinder pos(x,y,z)  0 500 600 radius 200
 
 cylinder pos(x,y,z)  -300 500 600 radius 100

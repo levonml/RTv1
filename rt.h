@@ -67,6 +67,7 @@ typedef struct s_data
     float   green;
     float   blue;
     int     pixel;
+    float   visible;
     float   t;
     float   light_t;
     float   sphere_t;
@@ -102,7 +103,9 @@ int         intersect_ray_cone(t_data *data, t_ray *ray, int i, float *t);
 int         intersect_ray_plane(t_data *data, t_ray *ray, int i, float *t);
 t_vector    vector_add(t_vector *v1, t_vector *v2);
 t_vector    vector_sub(t_vector *v1, t_vector *v2);
+t_vector    vector_sub_c(t_vector *v1, t_vector *v2);
 float       dot_product(t_vector *v1, t_vector *v2);
+float       dot_product_c(t_vector *v1, t_vector *v2);
 float       ft_abs(float t);
 t_vector    vector_scale(float a, t_vector *v);
 int         cylinder(t_data *data, int i, int j);

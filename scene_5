@@ -1,6 +1,6 @@
 sphere 4
-sphere pos(x,y,z)  -350 300 0 radius 100 
-sphere pos(x,y,z)  350 300 0 radius 100
+sphere pos(x,y,z)  -350 300 0 radius 101 
+sphere pos(x,y,z)  350 300 0 radius 101
 sphere pos(x,y,z)  200 -200 0 radius 70
 sphere pos(x,y,z)  -200 -200 0 radius 70
 cone 1
@@ -12,8 +12,8 @@ cylinder pos(x,y,z)  350 0 0 radius  80
 cylinder pos(x,y,z)  -200 0 0 radius  50
 cylinder pos(x,y,z)  200 0 0 radius  50
 light 2
-light pos(x,y,z) -1500 0 -900 radius 0
-light pos(x,y,z) 1900 0 -900 radius 0
+light pos(x,y,z) -1500 1990 -900 radius 0
+light pos(x,y,z) 1900 5400 -700 radius 0
 
 
 

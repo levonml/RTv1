@@ -1,14 +1,14 @@
 cylinder 2
 cylinder pos(x,y,z)  300 0 0 radius  150
-cylinder pos(x,y,z)  -300 0 1020 radius  150
-sphere 2
-sphere pos(x,y,z)  300 0 0 radius 200
-sphere pos(x,y,z)  -600 0 100 radius 200
+cylinder pos(x,y,z)  -200 0 -4000 radius  150
+.sphere 2
+.sphere pos(x,y,z)  300 0 0 radius 200
+.sphere pos(x,y,z)  -600 0 100 radius 200
 
-cone 1
-cone pos(x,y,z)  200 0 0 radius 200
-light 2
-light pos(x,y,z) 1000 0 -200 radius 0
-light pos(x,y,z) -1000 0 -200 radius 0
-light pos(x,y,z) -5000 0 -200 radius 0
+.cone 1
+.cone pos(x,y,z)  200 0 500 radius 200
+light 1
+.light pos(x,y,z) 1000 0 -20000 radius 0
+light pos(x,y,z) -100 0 -20000 radius 0
+.light pos(x,y,z) -5000 0 -200 radius 0
 

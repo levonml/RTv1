@@ -25,7 +25,7 @@ int cone(t_data *data, int current_cone, int i)
       if (data->light_t > 0)
       {
         data->light_ray.start = data->new_start;
-        data->light_ray.dir = vector_scale(1 / data->temp, &data->dist); 
+        data->light_ray.dir = vector_scale(1 / data->light_t, &data->dist); 
         data->in_shadow = 0;
 
         d = 0;

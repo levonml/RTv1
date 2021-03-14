@@ -58,7 +58,7 @@ int intersect_ray_cylinder(t_data *data, t_ray *ray, int current_cylinder, float
     b = 2 * dot_product_c(&ray->dir, &dist);
     c = dot_product_c(&dist, &dist) - data->cylinder[current_cylinder].radius * data->cylinder[current_cylinder].radius;
     discr = b * b - 4 * a * c;
-    if (discr  <=  0)
+    if (discr  <= 0)
     {
     return (0);
     }      
@@ -70,15 +70,10 @@ int intersect_ray_cylinder(t_data *data, t_ray *ray, int current_cylinder, float
             t0 = t1;
         if(t0 > 0 && t0 < *t)
         {
-            //data->cylinder_t = t0;
             *t = t0;
-            //printf("cilindric = %f", data->t);
-            // printf("t = %f", *t);
             return (1);
         }
-        else
-            return (0);
     }
     
-    //return (1);
+    return (0);
 }
