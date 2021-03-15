@@ -39,6 +39,9 @@ typedef struct  s_shape
     t_vector    pos;    
     t_vector    normal;
     float       radius;
+    int         r;
+    int         b;
+    int         g;
 }               t_shape;
 
 typedef struct s_data

@@ -1,19 +1,28 @@
-sphere 4
-sphere pos(x,y,z)  -350 300 0 radius 101 
-sphere pos(x,y,z)  350 300 0 radius 101
-sphere pos(x,y,z)  200 -200 0 radius 70
-sphere pos(x,y,z)  -200 -200 0 radius 70
-cone 1
-cone pos(x,y,z)  60 0 0 radius 200
+sphere 9
+sphere pos(x,y,z)  -350  300 0 radius 101 
+sphere pos(x,y,z)   350  300 0 radius 101
+sphere pos(x,y,z)  -350 -300 0 radius 101 
+sphere pos(x,y,z)   350 -300 0 radius 101
+sphere pos(x,y,z)   190 -200 500 radius 70
+sphere pos(x,y,z)  -190 -200 500 radius 70
+sphere pos(x,y,z)   190  150 500 radius 70
+sphere pos(x,y,z)  -190  150 500 radius 70
+sphere pos(x,y,z)     0  270 -40 radius 70
+.cone 1
+.cone pos(x,y,z)  60 0 0 radius 200
 
 cylinder 4
-cylinder pos(x,y,z)  -350 0 0 radius  80
-cylinder pos(x,y,z)  350 0 0 radius  80
-cylinder pos(x,y,z)  -200 0 0 radius  50
-cylinder pos(x,y,z)  200 0 0 radius  50
-light 2
-light pos(x,y,z) -1500 1990 -900 radius 0
-light pos(x,y,z) 1900 5400 -700 radius 0
+cylinder pos(x,y,z)  -350 0 0 radius  70
+cylinder pos(x,y,z)   350 0 0 radius  70
+cylinder pos(x,y,z)  -190 0 500 radius  40
+cylinder pos(x,y,z)   190 0 500 radius  40
+plane 2
+plane pos(x,y,z) 0 -320 0 normal 0  -300 70 color r 120  g 120  b 120
+plane pos(x,y,z) 0  320 0 normal 0 -300 -100 color r 20 g 60 b 40
+light 3
+light pos(x,y,z) -1400 -800 -1000 radius 0
+light pos(x,y,z)  1400 -800 -1000 radius 0
+light pos(x,y,z)  1400 -800 -1000 radius 0
 
 
 

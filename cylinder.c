@@ -41,6 +41,7 @@ int      cylinder(t_data *data, int current_cylinder, int i)
         }
         if (data->in_shadow == 0)
         {
+          //printf("data->t = %f", data->t);
           data->lambert = dot_product(&data->light_ray.dir, &data->n);
           data->blue = 0 ;
           data->green += GREEN * data->lambert;
