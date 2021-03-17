@@ -39,6 +39,9 @@ typedef struct  s_shape
     t_vector    pos;    
     t_vector    normal;
     float       radius;
+    float     sphere_rot[10];
+    float     cylinder_rot[10];
+    float     plane_rot[10];
     int         r;
     int         b;
     int         g;
@@ -116,5 +119,5 @@ int         cone(t_data *data, int i, int j);
 int         sphere(t_data *data, int i, int j);
 int         plane(t_data *data, int i, int j);
 int         find_intersection(t_data *data, t_ray *ray, int i, float *t);
-
+t_vector    rot(t_vector v, float a);
 # endif

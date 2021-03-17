@@ -5,6 +5,7 @@ int sphere(t_data *data, int current_sphere, int i)
   int current_light;
   int d;
   //printf("t= %f", data->t);
+  //data->sphere[current_sphere].pos = rot(data->sphere[current_sphere].pos, data->sphere[current_sphere].sphere_rot);
     data->scaled = vector_scale(data->t, &data->r.dir);
     data->new_start = vector_add(&data->r.start, &data->scaled);
     data->n = vector_sub(&data->new_start, &data->sphere[current_sphere].pos);

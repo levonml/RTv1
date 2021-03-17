@@ -49,6 +49,8 @@ int intersect_ray_sphere(t_data *data, t_ray *ray, int current, float *t)
     if(!data->sphere)
       return(0);
 
+    //data->sphere[current].pos = rot(data->sphere[current].pos, data->sphere[current].sphere_rot);
+    //printf("rotate = %d", data->sphere[current].sphere_rot);
     a = dot_product(&ray->dir, &ray->dir);
     dist = vector_sub(&ray->start, &data->sphere[current].pos);
     b = 2 * dot_product(&ray->dir, &dist);

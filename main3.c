@@ -1,13 +1,6 @@
 #include "rt.h"
-int   max_num(int a, int b, int c)
-{
-  if(a < b)
-    a = b;
-  if (a < c)
-    a = c;
-    return(a);
-}
-t_vector rot(t_vector v, float a)
+
+/*t_vector rot(t_vector v, float a)
 {
   float pi;
   float rad;
@@ -20,15 +13,25 @@ t_vector rot(t_vector v, float a)
   //v.x = (v.x * cosf(rad) - v.y * sinf(rad)) + WIDTH/2 ;
   //v.y = (x * sinf(rad) + v.y * cosf(rad)) + HEIGHT/2 ;
   //over Y;
-  v.x = (v.z * sinf(rad) + v.x * cosf(rad));// + WIDTH/2 ;
-  v.z = (v.z * cosf(rad) - x * sinf(rad));// + HEIGHT/2 ;
-  v.y = v.y;// + 400;
+  v.x = (v.z * sinf(rad) + v.x * cosf(rad)) + WIDTH/2 ;
+  v.z = (v.z * cosf(rad) - x * sinf(rad)) + HEIGHT/2 ;
+  v.y = v.y + 400;
   //printf("rad = %f\nx = %f\ny = %f\nz = %f\n cosA = %f\nsinA = %f\n", rad, v.x, v.y, v.z, cosf(rad), sinf(rad));
   //printf("1 = %f\n2 = %f\n", v.x * cosf(rad), v.y * sinf(rad));
     //v.z = v.z;
   return(v);
+
+  //printf("x->x = %f", v->x);
+}*/
+int   max_num(int a, int b, int c)
+{
+  if(a < b)
+    a = b;
+  if (a < c)
+    a = c;
+    return(a);
 }
-void  fill_data(t_shape *shape, char **split, int i)
+void  fill_data(t_shape *shape, char **split, int i )
 {
   if(ft_strcmp(split[5], "normal") == 0)
   {
@@ -47,25 +50,28 @@ void  fill_data(t_shape *shape, char **split, int i)
       shape->r = ft_atoi(split[11]);
       shape->g = ft_atoi(split[13]);
       shape->b = ft_atoi(split[15]); 
-      shape->plane_rot[i] = ft_atoi(split[17]);
+     // shape->plane_rot[i] = ft_atoi(split[17]);
       //printf("color is %d\n", shape->color);
     }
   }
-  if(ft_strcmp(split[0], "sphere") == 0)
-     shape->sphere_rot[i] = ft_atoi(split[8]);
-  if(ft_strcmp(split[0], "cylinder") == 0)
-     shape->cylinder_rot[i] = ft_atoi(split[8]);
+  //if(ft_strcmp(split[0], "sphere") == 0)
+  //   shape->sphere_rot[i] = ft_atoi(split[8]);
+  //if(ft_strcmp(split[0], "cylinder") == 0)
+  //   shape->cylinder_rot[i] = ft_atoi(split[8]);
   
-  shape->pos.x = ft_atoi(split[2])+ WIDTH/2;;
-  shape->pos.y = ft_atoi(split[3])+ HEIGHT/2;
+  shape->pos.x = ft_atoi(split[2]) + WIDTH/2;
+  shape->pos.y = ft_atoi(split[3]) + HEIGHT/2;
   shape->pos.z = ft_atoi(split[4]);
+  //shape->pos = rot(shape->pos, shape->sphere_rot);
+
 }
 int   find_intersection(t_data *data, t_ray *r, int current_obj, float *t)
 {
   data->intersect = 0;
   data->visible = *t;
+  
 
-    //if(current_obj < data->cylinder_num)
+  //  if(current_obj < data->cylinder_num)
   {
     if( intersect_ray_cylinder(data, r, current_obj, t))
     {
@@ -80,7 +86,7 @@ int   find_intersection(t_data *data, t_ray *r, int current_obj, float *t)
       }
     }
   }
-    //if(current_obj < data->sphere_num)
+   // if(current_obj < data->sphere_num)
   {
     if( intersect_ray_sphere(data, r, current_obj, t))
     {
@@ -219,8 +225,7 @@ int data_init(t_data *data)
       else
       {
         fill_data(&data->sphere[sphere_count], split, sphere_count);
-        data->sphere[sphere_count].pos = rot(data->sphere[sphere_count].pos, data->sphere[sphere_count].sphere_rot[sphere_count]);
-
+        //data->sphere[sphere_count].pos = rot(data->sphere[sphere_count].pos, data->sphere[sphere_count].sphere_rot[sphere_count]);
         sphere_count++;
       }
     }   
@@ -249,7 +254,7 @@ int data_init(t_data *data)
       else
       {
         fill_data(&data->cylinder[cylinder_count], split, cylinder_count);
-        data->cylinder[cylinder_count].pos = rot(data->cylinder[cylinder_count].pos, data->cylinder[cylinder_count].cylinder_rot[cylinder_count]);
+        //data->cylinder[cylinder_count].pos = rot(data->cylinder[cylinder_count].pos, data->cylinder[cylinder_count].cylinder_rot[cylinder_count]);
 
         cylinder_count++;
       }
@@ -265,7 +270,7 @@ int data_init(t_data *data)
       else
       {
         fill_data(&data->plane[plane_count], split, plane_count);
-        data->plane[plane_count].normal = rot(data->plane[plane_count].normal, data->plane[plane_count].plane_rot[plane_count]);
+        //data->plane[plane_count].normal = rot(data->plane[plane_count].normal, data->plane[plane_count].plane_rot[plane_count]);
 
         plane_count++;
       }
@@ -289,7 +294,9 @@ int data_init(t_data *data)
   data->r.dir.x = 0;
   data->r.dir.y = 0;
   data->r.dir.z = 1;
-  data->r.start.z = -10000;
+  data->r.start.z = -1000;
+  //data->r.start.x = 0;
+  //data->r.start.y =0;
   data->blue = 0;
   data->green = 0;
   data->red = 0;
@@ -301,7 +308,8 @@ void render(t_data *data)
   data->obj_num = max_num(data->cone_num, data->cylinder_num, data->sphere_num);
   while(data->y < HEIGHT)
 {
-  data->r.start.y = data->y;
+  data->r.start.y = (data->y);
+  //data->r.dir.y =  data->y;
   data->x = 0;
   while(data->x < WIDTH)
 	{
@@ -309,7 +317,9 @@ void render(t_data *data)
     data->green = 0;
     data->red = 0;
     data->t = 50000;
-    data->r.start.x = data->x;
+    data->r.start.x = data->x;// + 2000;
+   // data->r.start = rot(data->r.start, 10);
+    //data->r.dir.x =  data->x;//rot(data->r.dir, 10);
     data->iter = 0;
     data->i_cylinder = -1;
     data->i_sphere = -1;
@@ -336,6 +346,7 @@ void render(t_data *data)
           break ;
        // data->iter_light++;
       }*/
+      
 	    data->pixel = data->y * data->line_bytes + data->x * 4;
 	    data->buffer[data->pixel + 0] = data->blue;
 	    data->buffer[data->pixel + 1] = data->green;
