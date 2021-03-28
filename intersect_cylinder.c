@@ -1,11 +1,5 @@
 
 #include "rt.h"
-float ft_abs(float t)
-{
-    if(t < 0)
-        return(-t);
-    return(t);
-}
 
 int intersect_ray_cylinder(t_data *data, t_ray *ray, int current_cylinder, float *t)
 {
