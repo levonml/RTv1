@@ -5,10 +5,10 @@ int intersect_ray_cone(t_data *data, t_ray *ray, int current, float *t)
 {   
     if(!data->cone || (data->cone_count - 1) < current)
       return(0);
-    data->a = dot_product_xz(&ray->dir, &ray->dir);
-    data->dist = vector_sub_xz(&data->r.start, &data->cone[current].pos);
-    data->b = 2 * dot_product_xz(&ray->dir, &data->dist);
-    data->c = dot_product_xz(&data->dist, &data->dist) - (data->y  - HEIGHT/2) * (data->y - HEIGHT/2)/6;
+    data->a = dot_product(&ray->dir, &ray->dir);
+    data->dist = vector_sub(&data->r.start, &data->cone[current].pos);
+    data->b = 2 * dot_product(&ray->dir, &data->dist);
+    data->c = dot_product(&data->dist, &data->dist) - pow(data->y - HEIGHT/2, 2)/4;
     data->discr = data->b * data->b - 4 * data->a * data->c;
     if (data->discr <= 0)
         return (0);

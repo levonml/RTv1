@@ -8,7 +8,7 @@ int intersect_ray_sphere(t_data *data, t_ray *ray, int current, float *t)
     data->a = dot_product(&ray->dir, &ray->dir);
     data->dist = vector_sub(&ray->start, &data->sphere[current].pos);
     data->b = 2 * dot_product(&ray->dir, &data->dist);
-    data->c = dot_product(&data->dist, &data->dist) - data->sphere[current].radius * data->sphere[current].radius;
+    data->c = dot_product(&data->dist, &data->dist) - pow(data->sphere[current].radius, 2);
     data->discr = data->b * data->b - 4 * data->a * data->c;
     if (data->discr <= 0)
         return (0);

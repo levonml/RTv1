@@ -10,7 +10,7 @@ static void choose_color(t_data *data, int current_plane)
   data->green += data->plane[current_plane].g * data->lambert;
   if (data->green > 255)
     data->green = 255;
-  data->red +=  data->plane[current_plane].r *data->lambert;//(0.8 + 1 / data->t)
+  data->red +=  data->plane[current_plane].r *data->lambert;
   if (data->red > 255)
     data->red = 255;
 }
@@ -51,7 +51,7 @@ int      plane(t_data *data, int current_plane, int i)
     while(data->current_light < data->light_num)
     {
       data->dist = vector_sub(&data->light[data->current_light].pos, &data->new_start);
-      if( dot_product(&data->dist, &data->plane[current_plane].normal) != 0 )// or != 0???
+      if( dot_product(&data->dist, &data->plane[current_plane].normal) != 0 )
       {
         data->light_t = sqrt(dot_product(&data->dist, &data->dist));
         if (data->light_t > 0)

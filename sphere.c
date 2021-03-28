@@ -13,7 +13,7 @@ static void choose_color(t_data *data)
 static void get_new_ray(t_data *data)
 {
   data->light_ray.start = data->new_start;
-  data->light_ray.dir = vector_scale(1 / data->light_t, &data->dist); 
+  data->light_ray.dir = normalize(data->dist);
   data->in_shadow = 0;
   data->count = 0;
   while (data->count < data->obj_num)
@@ -33,12 +33,7 @@ int sphere(t_data *data, int current_sphere, int i)
 {
     data->scaled = vector_scale(data->t, &data->r.dir);
     data->new_start = vector_add(&data->r.start, &data->scaled);
-    data->n = vector_sub(&data->new_start, &data->sphere[current_sphere].pos);
-    data->temp = dot_product(&data->n, &data->n);
-    if(data->temp == 0)
-      return(0);
-    data->temp = 1 / sqrt(data->temp);
-    data->n = vector_scale(data->temp, &data->n);
+    data->n = normalize(vector_sub(&data->new_start, &data->sphere[current_sphere].pos));
     data->current_light = 0;
     while(data->current_light < data->light_num)
     {

@@ -1,7 +1,8 @@
-sphere 3
-sphere pos(x,y,z)  1000 0 0 radius 50 rot 0
-sphere pos(x,y,z)  -200 0 290 radius 100 rot 0
-sphere pos(x,y,z)  500 0 0 radius 100 rot 0
+sphere 4
+sphere pos(x,y,z)  -700 1200 0 radius 150 rot 0
+sphere pos(x,y,z)  -200    0 0 radius 150 rot 0
+sphere pos(x,y,z)  2300 -200 0 radius 150 rot 0
+sphere pos(x,y,z)  2300 1200 0 radius 150 rot 0
 .sphere pos(x,y,z)  200 300 0 radius 50 rot 0
 .sphere pos(x,y,z)  200 0 0 radius 50 rot 0
 .sphere pos(x,y,z)  200 500 0 radius 50 rot 0
@@ -13,6 +14,6 @@ sphere pos(x,y,z)  500 0 0 radius 100 rot 0
 .
 .cylinder 1
 .cylinder pos(x,y,z)  300 0 0 radius  150
-light 2
-light pos(x,y,z) 300 0 -1000 radius 0
-light pos(x,y,z) 1000 0 -1000 radius 0
+.light 4
+.light pos(x,y,z) -1000 0 -1000 radius 0
+.light pos(x,y,z) 10000 0 -1000 radius 0

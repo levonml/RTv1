@@ -4,8 +4,12 @@ float dot_product_xz(t_vector *v1, t_vector *v2)
 {
     return( v1->x * v2->x + v1->z * v2->z );
 }
+float dot_product_xy(t_vector *v1, t_vector *v2)
+{
+    return( v1->x * v2->x + v1->y * v2->y );
+}
 
-t_vector vector_scale_xs(float a, t_vector *v)
+t_vector vector_scale_xz(float a, t_vector *v)
 {
     t_vector res;
     res.x = (v->x) * (a);
