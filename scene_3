@@ -1,6 +1,0 @@
-cylinder 2
-cylinder pos(x,y,z)  200 0 500 radius 200 rot 0
-cylinder pos(x,y,z)  400 -300 1000 radius 200 rot 0
-
-light 1
-light pos(x,y,z) -1000 0 -4000 radius 0

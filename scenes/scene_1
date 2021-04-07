@@ -1,0 +1,8 @@
+
+sphere 1
+sphere pos(x,y,z)  0 0 0 radius 25 rot 0
+
+light 1
+light pos(x,y,z) 500 0 -1600 radius 0
+
+camera camera_start 0 0 -100 center 0 0 0

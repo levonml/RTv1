@@ -1,0 +1,11 @@
+cone 1
+cone pos(x,y,z)  30 0 -50 radius 0 rot 0
+sphere 1
+sphere pos(x,y,z)    -30 0 0 radius 30 rot 0
+cylinder 1
+cylinder pos(x,y,z)  -60 0 0 radius 20 rot -30
+light 1
+.light pos(x,y,z) 4000 0 -2000 radius 0
+light pos(x,y,z) -4000 -400 -200 radius 0
+
+camera camera_start 0 0 -400 center 0 0 0

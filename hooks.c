@@ -1,10 +1,7 @@
 #include "rt.h"
 
-int		key_control(int key, void *d)
+int		key_control(int key)
 {
-	t_data	*data;
-
-	data = (t_data *)d;
 	if (key == 65307)
 		exit(0);
 	return (0);

@@ -1,0 +1,30 @@
+camera camera_start 0 0 -8000 center 0 0 0
+sphere 9
+sphere pos(x,y,z)  -400  200    0 radius 70 rot 0  
+sphere pos(x,y,z)   400  200    0 radius 70 rot 0 
+sphere pos(x,y,z)  -400 -200    0 radius 70 rot 0  
+sphere pos(x,y,z)   400 -200    0 radius 70 rot 0 
+sphere pos(x,y,z)  -400  200 800 radius 70 rot 0 
+sphere pos(x,y,z)   400  200 800 radius 70 rot 0 
+sphere pos(x,y,z)  -400 -200 800 radius 70 rot 0 
+sphere pos(x,y,z)   400 -200 800 radius 70 rot 0 
+sphere pos(x,y,z)  -400 0  800 radius  70 rot 0 
+
+cylinder 4
+cylinder pos(x,y,z)  -400 0    0 radius 50 rot 0 
+cylinder pos(x,y,z)   400 0    0 radius 50 rot 0
+cylinder pos(x,y,z)  -400 0 800 radius 50 rot 0
+cylinder pos(x,y,z)   400 0 800 radius 50 rot 0
+plane 5
+plane pos(x,y,z)  800   0    0 normal 1  0 0 color r 120 g 120 b 120 rot 0 
+plane pos(x,y,z) -800   0    0 normal 1  0 0 color r  20 g  60 b  40 rot 0
+plane pos(x,y,z)   0 -200    0 normal 0 -1 0 color r  20 g  20 b 110 rot 0 
+plane pos(x,y,z)   0  200    0 normal 0 -1 0 color r 120 g 120 b 120 rot 0
+plane pos(x,y,z)   0   0 1500 normal 0  0 1 color r  20 g  60 b  40 rot 0
+light 2
+light pos(x,y,z) 600 -150  -300 radius 0
+light pos(x,y,z) -600 -150 -300 radius 0
+
+
+
+

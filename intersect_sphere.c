@@ -3,7 +3,7 @@
 
 int	intersect_ray_sphere(t_data *data, t_ray *ray, int current, float *t)
 {
-	if (!data->sphere)
+	if (!data->sphere || (data->sphere_count - 1) < current)
 		return (0);
 	data->a = dot_product(&ray->dir, &ray->dir);
 	data->dist = vector_sub(&ray->start, &data->sphere[current].pos);
