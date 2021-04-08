@@ -10,13 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "rt.h"
 
 void		choose_color(t_data *data)
 {
 	data->lambert = dot_product(&data->light_ray.dir, &data->n);
-	//data->lambert = abs(data->lambert);
 	data->blue += BLUE * data->lambert;
 	if (data->blue > 255)
 		data->blue = 255;
@@ -44,7 +42,6 @@ static void	get_new_ray(t_data *data)
 		choose_color(data);
 }
 
-//int			cone(t_data *data, int current_cone, int i)
 int			cone(t_data *data, int current_cone)
 
 {
@@ -70,7 +67,6 @@ int			cone(t_data *data, int current_cone)
 		data->dist = vector_sub(&data->light[data->current_light].pos,\
 		&data->new_start);
 		t_vector d = normalize(data->dist);
-		//t_vector t = normalize(data->temp);
 		if (dot_product(&d, &data->n) > 0)
 		{
 			data->light_t = sqrt(dot_product(&data->dist, &data->dist));

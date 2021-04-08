@@ -1,8 +1,10 @@
 cylinder 1
-cylinder pos(x,y,z)  0 0 0 radius 70 rot 0
+cylinder pos(x,y,z)  -300 0 1000 radius 70 rot 0 0 0
+sphere 1
+sphere pos(x,y,z)  -300 -300 1000 radius 90 rot 0 0 0
 
 light 1
 .light pos(x,y,z) 0 400 0 radius 0
 light pos(x,y,z) -1000 0 -1400 radius 0
 
-camera camera_start 0 1900 -300 center 0 0 0
+camera camera_start 0 0 0 center 0 0 1000

@@ -57,3 +57,16 @@ t_vector	rot_y(t_vector v, float a)
 	v.y = v.y;
 	return (v);
 }
+
+t_vector	rot_x(t_vector v, float a)
+{
+	float	rad;
+	float	y;
+
+	rad = convert_radian(a);
+	y = v.y;
+	v.y = (v.y * cos(rad) - v.z * sin(rad));
+	v.z = (v.z * cosf(rad) - y * sinf(rad));
+	v.x = v.x;
+	return (v);
+}

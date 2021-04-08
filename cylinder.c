@@ -47,23 +47,6 @@ static void	get_new_ray(t_data *data)
 //int		cylinder(t_data *data, int current_cylinder, int i)
 int		cylinder(t_data *data, int current_cylinder)
 {
-	//v = rot_z(v, 30);
-	/*data->scaled = vector_scale(data->t, &data->r.dir);
-	data->new_start = vector_add(&data->r.start, &data->scaled);
-	//data->cylinder[current_cylinder].pos.y = data->new_start.y;
-	t_vector d = data->cylinder[current_cylinder].pos;
-	d.y = data->new_start.y;
-	//data->cylinder[current_cylinder].pos = d;
-	data->n = normalize(vector_sub_xz(&data->new_start, &d));*/
-	
-	/*t_vector temp = vector_sub(&data->r.start, &data->cylinder[current_cylinder].pos);
-	float m = dot_product(&data->r.dir, &v) * data->t + dot_product(&temp, &v);
-	data->scaled = vector_scale(data->t, &data->r.dir);
-	data->new_start = vector_add(&data->r.start, &data->scaled);
-	t_vector t = vector_scale(m, &v);
-	data->n = vector_sub(&data->new_start, &data->cylinder[current_cylinder].pos);
-	data->n = vector_sub(&data->n, &t);
-	data->n = normalize(data->n);*/
 
 	data->scaled = vector_scale(data->t, &data->r.dir);
 	data->new_start = vector_add(&data->r.start, &data->scaled);
@@ -71,9 +54,6 @@ int		cylinder(t_data *data, int current_cylinder)
 	float m = dot_product(&temp, &data->cylinder[current_cylinder].axis);
 	t_vector mm = vector_scale(m, &data->cylinder[current_cylinder].axis);
 	data->n = normalize(vector_sub(&temp, &mm));
-
-
-	//printf("n.y = %f\n", data->n.z);
 	data->current_light = 0;
 	while(data->current_light < data->light_num)
 	{

@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "rt.h"
 
 int		max_num(int a, int b, int c, int d)
@@ -42,4 +41,11 @@ t_shape	*allocate(t_shape *shape, int num)
 	if (!(shape = (t_shape *)malloc(sizeof(t_shape) * num)))
 		exit(0);
 	return (shape);
+}
+int compere(t_ray r1, t_ray r2)
+{
+	if(r1.start.x == r2.start.x && r1.start.y == r2.start.y \
+	&& r1.start.z == r2.start.z)
+		return(1);
+	return(0);
 }

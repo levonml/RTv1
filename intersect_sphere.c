@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "rt.h"
 
 int	intersect_ray_sphere(t_data *data, t_ray *ray, int current, float *t)

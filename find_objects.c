@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "rt.h"
 
 void	find_cylinders(t_data *data, t_ray *r, int current_obj, float *t)

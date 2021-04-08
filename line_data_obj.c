@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "rt.h"
 
 void	line_data_sphere(t_data *data)
@@ -24,9 +23,6 @@ void	line_data_sphere(t_data *data)
 	else
 	{
 		fill_data(data->sphere, data, data->sphere_count);
-		data->sphere[data->sphere_count].pos = \
-		rot_z(data->sphere[data->sphere_count].pos,\
-		data->sphere[data->sphere_count].sphere_rot[data->sphere_count]);
 		data->sphere_count++;
 	}
 }
@@ -72,9 +68,6 @@ void	line_data_plane(t_data *data)
 	else
 	{
 		fill_data(data->plane, data, data->plane_count);
-		data->plane[data->plane_count].normal = \
-		rot_z(data->plane[data->plane_count].normal,\
-		data->plane[data->plane_count].plane_rot[data->plane_count]);
 		data->plane_count++;
 	}
 }

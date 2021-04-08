@@ -54,6 +54,7 @@ int			sphere(t_data *data, int current_sphere)
 	data->current_light = 0;
 	while (data->current_light < data->light_num)
 	{
+		//data->light[data->current_light].pos.y = data->y;
 		data->dist = vector_sub(&data->light[data->current_light].pos, \
 		&data->new_start);
 		if (dot_product(&data->dist, &data->n) > 0)

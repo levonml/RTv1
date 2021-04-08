@@ -19,7 +19,7 @@
 # define WIDTH  1800
 # define HEIGHT 900
 # define FOV 24
-# define CONE 30
+# define CONE 10
 # include "libft/libft.h"
 # include <mlx.h>
 # include <math.h>
@@ -54,10 +54,18 @@ typedef struct	s_shape
 	t_vector	dir;
 	t_vector	axis;
 	float		radius;
-	float		sphere_rot[20];
-	float		cylinder_rot[20];
-	float		plane_rot[20];
-	float		cone_rot[20];
+	float		sphere_rot_x[20];
+	float		sphere_rot_y[20];
+	float		sphere_rot_z[20];
+	float		cylinder_rot_x[20];
+	float		cylinder_rot_y[20];
+	float		cylinder_rot_z[20];
+	float		plane_rot_x[20];
+	float		plane_rot_y[20];
+	float		plane_rot_z[20];
+	float		cone_rot_x[20];
+	float		cone_rot_y[20];
+	float		cone_rot_z[20];
 	int			r;
 	int			b;
 	int			g;
@@ -121,12 +129,15 @@ typedef struct	s_data
 	float		temp;
 	float		lambert;
 	float		discr;
+	float		ratio;
 	float		a;
 	float		b;
 	float		c;
 	float		t0;
 	float		t1;
 	float		u;
+	float		temp2;
+	float		temp3;
 	t_shape		*sphere;
 	t_shape		*cylinder;
 	t_shape		*cone;
@@ -142,6 +153,7 @@ typedef struct	s_data
 	t_vector	n;
 	t_vector	vertical;
 	t_vector	center;
+	t_vector	temp1;
 	t_ray		r;
 	t_ray		light_ray;
 	t_ray		cam;
@@ -158,6 +170,7 @@ int				cylinder(t_data *data, int i);
 int				cone(t_data *data, int i);
 int				sphere(t_data *data, int i);
 int				plane(t_data *data, int i);
+int				compere(t_ray r1, t_ray r2);
 int				find_intersection(t_data *data, t_ray *ray, int i, float *t);
 int				max_num(int a, int b, int c, int d);
 float			ft_abs(float t);
@@ -189,6 +202,7 @@ t_vector		vector_add_xz(t_vector *v1, t_vector *v2);
 t_vector		vector_scale_xz(float a, t_vector *v);
 t_vector		rot_y(t_vector v, float a);
 t_vector		rot_z(t_vector v, float a);
+t_vector		rot_x(t_vector v, float a);
 t_vector		cross_product(t_vector v1, t_vector v2);
 t_vector		normalize(t_vector v);
 t_shape			*allocate(t_shape *shape, int num);
