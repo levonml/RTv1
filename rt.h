@@ -154,6 +154,7 @@ typedef struct	s_data
 	t_vector	vertical;
 	t_vector	center;
 	t_vector	temp1;
+	t_vector	v_temp;
 	t_ray		r;
 	t_ray		light_ray;
 	t_ray		cam;

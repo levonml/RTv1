@@ -91,9 +91,11 @@ void	render(t_data *data)
 	{
 		data->x = 0;
 		while (data->x < WIDTH)
-		{		
-			data->v_up =   vector_scale(-(2 * (float)data->y / HEIGHT - 1) *  tan(convert_radian(FOV/2)) , &data->cam.up);
-			data->v_right = vector_scale((2 * (float)data->x / WIDTH - 1) * tan(convert_radian(FOV/2)) * data->ratio , &data->cam.right);
+		{
+			data->v_up = vector_scale(-(2 * (float)data->y / HEIGHT - 1) *  \
+			tan(convert_radian(FOV / 2)), &data->cam.up);
+			data->v_right = vector_scale((2 * (float)data->x / WIDTH - 1) * \
+			tan(convert_radian(FOV / 2)) * data->ratio, &data->cam.right);
 			data->r_up = (vector_add(&data->v_up, &data->v_right));
 			data->r.dir = normalize(vector_add(&data->r_up, &data->cam.dir));
 			iter_over_x(data);
@@ -108,17 +110,11 @@ int		main(int argc, char **argv)
 	t_data	*data;
 
 	if (!(data = malloc(sizeof(t_data))))
-		return (0);
+		put_message("allocation failed at 'data'");
 	if (argc != 2)
-	{
-		ft_putstr("The number of arguments should be one");
-		return (0);
-	}
+		put_message("The number of arguments must be one");
 	if (!(data->fd = open(argv[1], O_RDONLY)) && data->fd == -1)
-	{
-		ft_putstr("file opening error");
-		return (0);
-	}
+		put_message("file opening error");
 	data_init(data);
 	close(data->fd);
 	data->mlx = mlx_init();

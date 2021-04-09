@@ -7,14 +7,12 @@ sphere pos(x,y,z)  55 25 0 radius 10 rot 0 0 0
 sphere pos(x,y,z)  30 -35 0 radius 8 rot 0 0 0
 sphere pos(x,y,z)  30 -20 0 radius 8 rot 0 0 0
 sphere pos(x,y,z)  30 0 -8 radius 8 rot 0 0 0
-
 cylinder 3
-cylinder pos(x,y,z)  0 0 0 radius 4 rot 0 0 0
-cylinder pos(x,y,z)  0 0 0 radius 4 rot 0 0 50
-cylinder pos(x,y,z)  -30 0 0 radius 4 rot 0 0 0
+cylinder pos(x,y,z) 0 0 0 radius 4 rot 0 0 0
+cylinder pos(x,y,z) 0 0 0 radius 4 rot 0 0 50
+cylinder pos(x,y,z) -30 0 0 radius 4 rot 0 0 0
 cone 1
-cone pos(x,y,z)  30 0 0 radius 2 rot 0 0 0
+cone pos(x,y,z) 0 0 0 radius 2 rot 0 0 0
 light 1
 light pos(x,y,z) 50 -20 -130 radius 0
-
 camera camera_start 0 0 -200 center 0 0 0

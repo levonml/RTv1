@@ -42,32 +42,20 @@ static void	get_new_ray(t_data *data)
 		choose_color(data);
 }
 
-int			cone(t_data *data, int current_cone)
-
+int			cone(t_data *data, int current)
 {
-	/*data->scaled = vector_scale(data->t, &data->r.dir);
-	data->new_start = vector_add(&data->r.start, &data->scaled);
-	//data->cone[current_cone].pos.y = data->new_start.y;
-	t_vector temp = data->cone[current_cone].pos;
-	temp.y = data->new_start.y;
-	data->n = vector_sub(&data->new_start, &temp);
-	//data->n.y += dot_product(&data->n, &data->n) * tan(convert_radian(CONE));
-	data->n = normalize(data->n);*/
 	data->scaled = vector_scale(data->t, &data->r.dir);
 	data->new_start = vector_add(&data->r.start, &data->scaled);
-	t_vector temp = vector_sub(&data->new_start, &data->cone[current_cone].pos);
-	float m = dot_product(&temp, &data->cone[current_cone].axis);
-	t_vector mm = vector_scale(m, &data->cone[current_cone].axis);
-	data->n = normalize(vector_sub(&temp, &mm));
-	
-	
+	data->n = vector_sub(&data->new_start, &data->cone[current].pos);
+	data->v_temp = vector_scale(dot_product(&data->n, \
+	&data->cone[current].axis), &data->cone[current].axis);
+	data->n = normalize(vector_sub(&data->n, &data->v_temp));
 	data->current_light = 0;
 	while (data->current_light < data->light_num)
 	{
 		data->dist = vector_sub(&data->light[data->current_light].pos,\
 		&data->new_start);
-		t_vector d = normalize(data->dist);
-		if (dot_product(&d, &data->n) > 0)
+		if (dot_product(&data->dist, &data->n) > 0)
 		{
 			data->light_t = sqrt(dot_product(&data->dist, &data->dist));
 			if (data->light_t > 0)
@@ -75,6 +63,5 @@ int			cone(t_data *data, int current_cone)
 		}
 		data->current_light++;
 	}
-	//choose_color(data);
 	return (1);
 }

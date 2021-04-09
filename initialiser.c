@@ -12,6 +12,19 @@
 
 #include "rt.h"
 
+void erase(void **split)
+{
+	int i;
+
+	i = 0;
+	while (split[i])
+	{
+		ft_memdel(&split[i]);
+		i++;
+	}
+	free(split);
+	split = NULL;
+}
 void	pars_plane(t_shape *shape, t_data *data, int i)
 {
 	shape[i].normal.x = ft_atoi(data->split[6]);
@@ -53,6 +66,7 @@ void	first_value(t_data *data)
 	data->cone_num = 0;
 	data->sphere_num = 0;
 	data->cylinder_num = 0;
+	data->plane_num = 0;
 	data->cylinder = NULL;
 	data->sphere = NULL;
 	data->cone = NULL;
@@ -109,22 +123,27 @@ void	data_init(t_data *data)
 	first_value(data);
 	while (get_next_line(data->fd, &data->str) == 1)
 	{
-		if (!(data->split = ft_strsplit(data->str, ' ')))
-			put_message("malloc error in ft_strsplit");
-		data->split_count = 0;
-		while (data->split[data->split_count])
-			data->split_count++;
-		if (ft_strcmp(data->split[0], "camera") == 0)
-			line_data_camera(data);
-		else if (ft_strcmp(data->split[0], "sphere") == 0)
-			line_data_sphere(data);
-		else if (ft_strcmp(data->split[0], "cone") == 0)
-			line_data_cone(data);
-		else if (ft_strcmp(data->split[0], "cylinder") == 0)
-			line_data_cylinder(data);
-		else if (ft_strcmp(data->split[0], "plane") == 0)
-			line_data_plane(data);
-		else if (ft_strcmp(data->split[0], "light") == 0)
-			line_data_light(data);
+		if(data->str[0] != '\0')
+		{
+			if (!(data->split = ft_strsplit(data->str, ' ')))
+				put_message("malloc error in ft_strsplit");
+			data->split_count = 0;
+			while (data->split[data->split_count])
+				data->split_count++;
+			if (ft_strcmp(data->split[0], "camera") == 0)
+				line_data_camera(data);
+			else if (ft_strcmp(data->split[0], "sphere") == 0)
+				line_data_sphere(data);
+			else if (ft_strcmp(data->split[0], "cone") == 0)
+				line_data_cone(data);
+			else if (ft_strcmp(data->split[0], "cylinder") == 0)
+				line_data_cylinder(data);
+			else if (ft_strcmp(data->split[0], "plane") == 0)
+				line_data_plane(data);
+			else if (ft_strcmp(data->split[0], "light") == 0)
+				line_data_light(data);
+			erase((void **)data->split);
+		}
+		ft_memdel((void **)&data->str);
 	}
 }

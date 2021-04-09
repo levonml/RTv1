@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "rt.h"
 
 static void	choose_color(t_data *data)
@@ -31,7 +30,6 @@ static void	get_new_ray(t_data *data)
 	data->count = 0;
 	while (data->count < data->obj_num)
 	{
-		//data->light_t = 4000000;
 		if (find_intersection(data, &data->light_ray,\
 		data->count, &data->light_t))
 		{
@@ -41,25 +39,23 @@ static void	get_new_ray(t_data *data)
 		data->count++;
 	}
 	if (data->in_shadow == 0)
-		choose_color(data);      
+		choose_color(data);
 }
 
-//int		cylinder(t_data *data, int current_cylinder, int i)
-int		cylinder(t_data *data, int current_cylinder)
+int			cylinder(t_data *data, int current)
 {
-
 	data->scaled = vector_scale(data->t, &data->r.dir);
 	data->new_start = vector_add(&data->r.start, &data->scaled);
-	t_vector temp = vector_sub(&data->new_start, &data->cylinder[current_cylinder].pos);
-	float m = dot_product(&temp, &data->cylinder[current_cylinder].axis);
-	t_vector mm = vector_scale(m, &data->cylinder[current_cylinder].axis);
-	data->n = normalize(vector_sub(&temp, &mm));
+	data->n = vector_sub(&data->new_start, &data->cylinder[current].pos);
+	data->v_temp = vector_scale(dot_product(&data->n, \
+	&data->cylinder[current].axis), &data->cylinder[current].axis);
+	data->n = normalize(vector_sub(&data->n, &data->v_temp));
 	data->current_light = 0;
-	while(data->current_light < data->light_num)
+	while (data->current_light < data->light_num)
 	{
-		//data->light[data->current_light].pos.y = data->y;
-		data->dist = vector_sub(&data->light[data->current_light].pos, &data->new_start);
-		if( dot_product(&data->dist, &data->n) > 0 )
+		data->dist = vector_sub(&data->light[data->current_light].pos, \
+		&data->new_start);
+		if (dot_product(&data->dist, &data->n) > 0)
 		{
 			data->light_t = sqrt(dot_product(&data->dist, &data->dist));
 			if (data->light_t > 0)
@@ -67,6 +63,5 @@ int		cylinder(t_data *data, int current_cylinder)
 		}
 		data->current_light++;
 	}
-	//choose_color(data);
-  	return(1);
+	return (1);
 }
