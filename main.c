@@ -84,18 +84,20 @@ void	render(t_data *data)
 	data->sphere_num, data->plane_num);
 	data->cam.dir = normalize(vector_sub(&data->center, &data->camera[0].pos));
 	data->cam.right = normalize(cross_product(data->cam.dir, data->cam.up));
-	data->cam.up = normalize(cross_product(data->cam.right, data->cam.dir));
+	data->cam.up = (cross_product(data->cam.right, data->cam.dir));
 	data->r.start = data->camera[0].pos;
+	//data->r.dir = data->cam.dir;
 	data->ratio = WIDTH / HEIGHT;
 	while (data->y < HEIGHT)
 	{
 		data->x = 0;
 		while (data->x < WIDTH)
 		{
+			 
 			data->v_up = vector_scale(-(2 * (float)data->y / HEIGHT - 1) *  \
-			tan(convert_radian(FOV / 2)), &data->cam.up);
+			tan(convert_radian(FOV/2)), &data->cam.up);
 			data->v_right = vector_scale((2 * (float)data->x / WIDTH - 1) * \
-			tan(convert_radian(FOV / 2)) * data->ratio, &data->cam.right);
+			tan(convert_radian(FOV/2)) * data->ratio, &data->cam.right);
 			data->r_up = (vector_add(&data->v_up, &data->v_right));
 			data->r.dir = normalize(vector_add(&data->r_up, &data->cam.dir));
 			iter_over_x(data);

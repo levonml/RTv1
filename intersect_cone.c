@@ -33,10 +33,8 @@ int		intersect_ray_cone(t_data *data, t_ray *ray, int current, float *t)
 	data->a = pow(data->temp2, 2) - pow(cos(convert_radian(CONE)), 2);
 	data->temp1 = vector_sub(&ray->start, &data->cone[current].pos);
 	data->temp3 = dot_product(&data->temp1, &data->cone[current].axis);
-	data->b = 2 * (data->temp2 * data->temp3 - (dot_product(&ray->dir, \
-	&data->temp1) * pow(cos(convert_radian(CONE)), 2)));
-	data->c = pow(data->temp3, 2) - dot_product(&data->temp1, &data->temp1) * \
-	pow(cos(convert_radian(CONE)), 2);
+	data->b = 2 * (data->temp2 * data->temp3 - (dot_product(&ray->dir, &data->temp1) * pow(cos(convert_radian(CONE)), 2)));
+	data->c = pow(data->temp3, 2) - dot_product(&data->temp1, &data->temp1) * pow(cos(convert_radian(CONE)), 2);
 	data->discr = data->b * data->b - 4 * data->a * data->c;
 	if (data->discr < 0)
 		return (0);
@@ -47,7 +45,13 @@ int		intersect_ray_cone(t_data *data, t_ray *ray, int current, float *t)
 	if (data->t0 > 0 && data->t0 < *t)
 	{
 		*t = data->t0;
-			return (1);
+		return (1);
+		//data->scaled = vector_scale(*t, &ray->dir);
+		//data->new_start = vector_add(&ray->start, &data->scaled);
+		//data->n = vector_sub(&data->new_start, &data->cone[current].pos);
+		//float n = dot_product(&data->n, &data->cone[current].axis);
+		//if (n > 0)//== cos(convert_radian(CONE)))
+			
 	}
 	return (0);
 }

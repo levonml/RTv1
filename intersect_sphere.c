@@ -22,7 +22,7 @@ int	intersect_ray_sphere(t_data *data, t_ray *ray, int current, float *t)
 	data->c = dot_product(&data->dist, &data->dist) - \
 	pow(data->sphere[current].radius, 2);
 	data->discr = data->b * data->b - 4 * data->a * data->c;
-	if (data->discr <= 0)
+	if (data->discr < 0)
 		return (0);
 	data->t0 = ((-data->b + sqrt(data->discr)) / 2 * data->a);
 	data->t1 = ((-data->b - sqrt(data->discr)) / 2 * data->a);

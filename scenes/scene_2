@@ -1,6 +1,8 @@
 
 cylinder 1
-cylinder pos(x,y,z)  -300 0 1000 radius 70 rot 0 0 0
-light 1
-light pos(x,y,z) -1000 0 -1400 radius 0
-camera camera_start 0 0 0 center 0 0 1000
+cylinder pos(x,y,z)  0 0 0 radius 20 rot 0 0 0
+
+light 2
+light pos(x,y,z) -1000 0 -4000
+light pos(x,y,z) 1000 0 -100
+camera camera_start 0 0 -1000 center 0 0 0

@@ -1,26 +1,12 @@
 
-.cone 4
-.cone pos(x,y,z)  200 0 0 radius 200
-.cone pos(x,y,z)  -200 0 0 radius 200
-.cone pos(x,y,z)  700 300 0 radius 200
-.cone pos(x,y,z)  -700 0 0 radius 200
-.sphere 8
-.sphere pos(x,y,z)  700 -150 0 radius 100
-.sphere pos(x,y,z)  700 200 0 radius 100
-.sphere pos(x,y,z)  -200 200 0 radius 100
-.sphere pos(x,y,z)  -200 -150 0 radius 100
-.sphere pos(x,y,z)  200 -150 0 radius 100
-.sphere pos(x,y,z)  200 200 0 radius 100
-.sphere pos(x,y,z)  -700 200 0 radius 100
-.sphere pos(x,y,z)  -700 -150 0 radius 100
-cylinder 3
-cylinder pos(x,y,z)  800 0 0 radius  80
-cylinder pos(x,y,z)  100 0 -800 radius 80
-cylinder pos(x,y,z)  400 0 40 radius 120
+plane 5
 
-plane 2
-.plane pos(x,y,z) 0  -250 0 normal 0 300 -40 color r 20  g 40  b 40
-plane pos(x,y,z) 0 150 0 normal 0  300 -40 color r 100 g 100 b 40
+plane pos(x,y,z)  800   0    0 normal 1  0 0 color r 120 g 120 b 120 rot 0 0 0 
+plane pos(x,y,z) -800   0    0 normal 1  0 0 color r  20 g  60 b  40 rot 0 0 0
+plane pos(x,y,z)   0 -200    0 normal 0 -1 0 color r  20 g  20 b 110 rot 0 0 0 
+plane pos(x,y,z)   0  200    0 normal 0 -1 0 color r 120 g 120 b 120 rot 0 0 0
+plane pos(x,y,z)   0   0 2500 normal 0  0 1 color r  20 g  60 b  40 rot 0 0 0
 light 2
-light pos(x,y,z) -400 -800 -1000 radius 0
-light pos(x,y,z) 400 -800 -1000 radius 0
+light pos(x,y,z) 0 1000 0
+light pos(x,y,z) 0 1000 0
+camera camera_start 0 0 -4000 center 0 0 0

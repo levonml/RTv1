@@ -27,6 +27,9 @@ void erase(void **split)
 }
 void	pars_plane(t_shape *shape, t_data *data, int i)
 {
+	shape[i].pos.x = ft_atoi(data->split[2]);// + WIDTH / 2;
+	shape[i].pos.y = ft_atoi(data->split[3]);// + HEIGHT / 2;
+	shape[i].pos.z = ft_atoi(data->split[4]);
 	shape[i].normal.x = ft_atoi(data->split[6]);
 	shape[i].normal.y = ft_atoi(data->split[7]);
 	shape[i].normal.z = ft_atoi(data->split[8]);
@@ -40,12 +43,12 @@ void	pars_plane(t_shape *shape, t_data *data, int i)
 
 void	camera_pars(t_shape *shape, t_data *data, int i)
 {
-	data->center.x = ft_atoi(data->split[6]) + WIDTH / 2;
-	data->center.y = ft_atoi(data->split[7]) + HEIGHT / 2;
-	data->center.z = ft_atoi(data->split[8]);
-	shape[i].pos.x = ft_atoi(data->split[2]);
-	shape[i].pos.y = ft_atoi(data->split[3]);
+	shape[i].pos.x = ft_atoi(data->split[2]);// + WIDTH / 2;
+	shape[i].pos.y = ft_atoi(data->split[3]);// + HEIGHT / 2;
 	shape[i].pos.z = ft_atoi(data->split[4]);
+	data->center.x = ft_atoi(data->split[6]);// + WIDTH / 2;
+	data->center.y = ft_atoi(data->split[7]);// + HEIGHT / 2;
+	data->center.z = ft_atoi(data->split[8]);
 	data->cam.up.x = 0;
 	data->cam.up.y = -1;
 	data->cam.up.z = 0;
@@ -81,12 +84,8 @@ void	first_value(t_data *data)
 
 void	fill_data(t_shape *shape, t_data *data, int i)
 {
-	if (data->split_count < 6)
-		put_message("wrong structure of argument file");
 	if (ft_strcmp(data->split[0], "camera") == 0)
 		camera_pars(shape, data, i);
-	if (ft_strcmp(data->split[5], "radius") == 0)
-		shape[i].radius = ft_atoi(data->split[6]);
 	if (ft_strcmp(data->split[0], "plane") == 0)
 	{
 		if (data->split_count < 18)
@@ -95,27 +94,46 @@ void	fill_data(t_shape *shape, t_data *data, int i)
 	}
 	if (ft_strcmp(data->split[0], "sphere") == 0)
 	{
-		if (data->split_count < 9)
-			put_message("wrong structure of line spher in the argument file");
+		if (data->split_count < 10)
+			put_message("wrong structure of line sphere in the argument file");
+		shape[i].pos.x = ft_atoi(data->split[2]);// + WIDTH / 2;
+		shape[i].pos.y = ft_atoi(data->split[3]);// + HEIGHT / 2;
+		shape[i].pos.z = ft_atoi(data->split[4]);
+		shape[i].radius = ft_atoi(data->split[6]);
 		shape[i].sphere_rot_x[i] = ft_atoi(data->split[8]);
 		shape[i].sphere_rot_y[i] = ft_atoi(data->split[9]);
 		shape[i].sphere_rot_z[i] = ft_atoi(data->split[10]);
 	}
 	if (ft_strcmp(data->split[0], "cylinder") == 0)
 	{
+		if (data->split_count < 10)
+			put_message("wrong structure of line cylinder in the argument file");
+		shape[i].radius = ft_atoi(data->split[6]);
 		shape[i].cylinder_rot_x[i] = ft_atoi(data->split[8]);
 		shape[i].cylinder_rot_y[i] = ft_atoi(data->split[9]);
 		shape[i].cylinder_rot_z[i] = ft_atoi(data->split[10]);
+		shape[i].pos.x = ft_atoi(data->split[2]);// + WIDTH / 2;
+		shape[i].pos.y = ft_atoi(data->split[3]);// + HEIGHT / 2;
+		shape[i].pos.z = ft_atoi(data->split[4]);
 	}
 	if (ft_strcmp(data->split[0], "cone") == 0)
 	{
+		shape[i].radius = ft_atoi(data->split[6]);
 		shape[i].cone_rot_x[i] = ft_atoi(data->split[8]);
 		shape[i].cone_rot_y[i] = ft_atoi(data->split[9]);
 		shape[i].cone_rot_z[i] = ft_atoi(data->split[10]);
+		shape[i].pos.x = ft_atoi(data->split[2]);// + WIDTH / 2;
+		shape[i].pos.y = ft_atoi(data->split[3]);// + HEIGHT / 2;
+		shape[i].pos.z = ft_atoi(data->split[4]);
 	}
-	shape[i].pos.x = ft_atoi(data->split[2]) + WIDTH / 2;
-	shape[i].pos.y = ft_atoi(data->split[3]) + HEIGHT / 2;
-	shape[i].pos.z = ft_atoi(data->split[4]);
+	if (ft_strcmp(data->split[0], "light") == 0)
+	{
+		if (data->split_count != 5)
+			put_message("wrong structure of line light in the argument file");
+		shape[i].pos.x = ft_atoi(data->split[2]);// + WIDTH / 2;
+		shape[i].pos.y = ft_atoi(data->split[3]);// + HEIGHT / 2;
+		shape[i].pos.z = ft_atoi(data->split[4]);	
+	}
 }
 
 void	data_init(t_data *data)

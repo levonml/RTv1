@@ -35,11 +35,13 @@ static void	get_new_ray(t_data *data, int current_plane)
 	data->light_ray.dir = normalize(data->dist);
 	data->in_shadow = 0;
 	data->count = 0;
+	//data->t = data->light_t;
 	while (data->count < data->obj_num)
 	{
 		if (find_intersection(data, &data->light_ray, \
 		data->count, &data->light_t))
 		{
+			//printf("t = %f visible = %f\n", data->light_t, data->visible);
 			data->in_shadow = 1;
 			break ;
 		}
@@ -59,6 +61,7 @@ int			plane(t_data *data, int current_plane)
 		data->dist = \
 		vector_sub(&data->light[data->current_light].pos, &data->new_start);
 		t_vector g = normalize(data->dist);
+		//data->light_t = sqrt(dot_product(&data->dist, &data->dist));
 		if (dot_product(&g, &(data->plane[current_plane].normal)) != 0)
 		{
 			data->light_t = sqrt(dot_product(&data->dist, &data->dist));

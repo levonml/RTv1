@@ -18,8 +18,8 @@
 # define GREEN 150
 # define WIDTH  1800
 # define HEIGHT 900
-# define FOV 24
-# define CONE 10
+# define FOV 10
+# define CONE 20
 # include "libft/libft.h"
 # include <mlx.h>
 # include <math.h>

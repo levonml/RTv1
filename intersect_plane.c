@@ -15,7 +15,7 @@
 int	intersect_ray_plane(t_data *data, t_ray *ray, int current_plane, float *t)
 {
 	t_vector	plane;
-	
+
 	if ((!data->plane) || (data->plane_count - 1) < current_plane)
 		return (0);
 	plane = vector_sub(&data->plane[current_plane].pos, &ray->start);
@@ -24,7 +24,7 @@ int	intersect_ray_plane(t_data *data, t_ray *ray, int current_plane, float *t)
 	if (data->b == 0)
 		return (0);
 	data->t1 = (data->a / data->b);
-	if (data->t1 > 0 && data->t1 < *t)
+	if (data->t1 > 0 && data->t1 < *t )
 	{
 		*t = data->t1;
 		return (1);

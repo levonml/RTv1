@@ -47,6 +47,8 @@ int			cylinder(t_data *data, int current)
 	data->scaled = vector_scale(data->t, &data->r.dir);
 	data->new_start = vector_add(&data->r.start, &data->scaled);
 	data->n = vector_sub(&data->new_start, &data->cylinder[current].pos);
+	//data->n = normalize(data->n);
+	//data->cylinder[current].axis = normalize(data->cylinder[current].axis);
 	data->v_temp = vector_scale(dot_product(&data->n, \
 	&data->cylinder[current].axis), &data->cylinder[current].axis);
 	data->n = normalize(vector_sub(&data->n, &data->v_temp));
@@ -55,9 +57,10 @@ int			cylinder(t_data *data, int current)
 	{
 		data->dist = vector_sub(&data->light[data->current_light].pos, \
 		&data->new_start);
+		data->light_t = sqrt(dot_product(&data->dist, &data->dist));
 		if (dot_product(&data->dist, &data->n) > 0)
 		{
-			data->light_t = sqrt(dot_product(&data->dist, &data->dist));
+			//data->light_t = sqrt(dot_product(&data->dist, &data->dist));
 			if (data->light_t > 0)
 				get_new_ray(data);
 		}
